@@ -20,6 +20,19 @@ License for the specific language governing permissions and limitations
 under the License.
 */
 
+// Customizations
+@import url("https://fonts.googleapis.com/css?family=Lato");html {
+  font-family: sans-serif;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%
+}
+
+.toc-wrapper .logo {
+  max-width: 200px !important;
+  padding: 12px !important;
+}
+
+// End of customizations
 ////////////////////////////////////////////////////////////////////////////////
 // GENERAL STUFF
 ////////////////////////////////////////////////////////////////////////////////
