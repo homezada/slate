@@ -6,7 +6,7 @@ language_tabs: # must be one of https://git.io/vQNgJ
   - ruby
 
 toc_footers:
-  - <a href='#'>Sign Up for a Developer Key</a>
+  - <a href='mailto:info@homezada.com'>Contact Us for a Partner API Key</a>
   - <a href='https://github.com/lord/slate'>Documentation Powered by Slate</a>
 
 includes:
@@ -135,7 +135,7 @@ https://secure.homezada.com/api/v1/properties/123456
 }
 ```
 
-The HomeZada APIs are build around the concepts of the JSON API specification. The API supports creating, updating, deleting, and fetching resources and relationships via HTTPS verbs. More info on the JSON API specification can be found at [https://jsonapi.org/](https://jsonapi.org/).
+The HomeZada APIs are built around the concepts of the JSON API specification. The API supports creating, updating, deleting, and fetching resources and relationships via HTTPS verbs. More info on the JSON API specification can be found at [https://jsonapi.org/](https://jsonapi.org/).
 
 
 # Authentication
@@ -195,7 +195,11 @@ The production data can be accessed via
 
 # Users
 
-A users is a regular consumer account. When created via this API it will be associated with the Partner id.
+A User is a regular HomeZada consumer account. When created via this API it will be associated with the Partner id automatically.
+
+<aside class="notice">
+A new account is created with a random strong password. Please use the Password Reset with the associated email address on the account.
+</aside>
 
 ## Get All Users
 
@@ -367,3 +371,27 @@ Parameter | Description
 --------- | -----------
 ID | The ID of the kitten to delete
 
+# Professionals
+
+A Professional is a business oriented HomeZada account. When created via this API it will be associated with the Partner id.
+
+## Get All Professionals
+
+
+# Properties
+
+A Property is a physical property that belongs to either a User or a Professional. When created via this API it will be associated with the Partner id.
+
+## Get All Properties
+
+# Photos
+
+A Property is a physical property that belongs to either a User or a Professional. When created via this API it will be associated with the Partner id.
+
+## Get All Photos
+
+# Documents
+
+A Property is a physical property that belongs to either a User or a Professional. When created via this API it will be associated with the Partner id.
+
+## Get All Documents
