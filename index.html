@@ -225,7 +225,13 @@
             <a href="#homezada-partner-api" class="toc-h1 toc-link" data-title="HomeZada Partner API">HomeZada Partner API</a>
           </li>
           <li>
+            <a href="#json-api" class="toc-h1 toc-link" data-title="JSON API">JSON API</a>
+          </li>
+          <li>
             <a href="#authentication" class="toc-h1 toc-link" data-title="Authentication">Authentication</a>
+          </li>
+          <li>
+            <a href="#versioning" class="toc-h1 toc-link" data-title="Versioning">Versioning</a>
           </li>
           <li>
             <a href="#users" class="toc-h1 toc-link" data-title="Users">Users</a>
@@ -254,11 +260,118 @@
       <div class="dark-box"></div>
       <div class="content">
         <h1 id='homezada-partner-api'>HomeZada Partner API</h1>
-<p>Welcome to the HomeZada Partner Integration API. You can use our API to access HomeZada API endpoints, which can get information on various Properties in your partner store.</p>
+<p>Welcome to the HomeZada Partner Integration API documentation. You can use our API to access HomeZada API endpoints, which can get information on various Accounts and Properties in your partner store.</p>
 
 <p>We have language bindings in Shell and Ruby. You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.</p>
 
 <p>For questions about this API, or for help in setting up a new Partner account, please email us <a href="mailto:info@homezada.com">here</a>.</p>
+
+<aside class="success">
+Remember — all data via this API is scoped by the Properties or Accounts only associated with your partner id. No other data is accessible.
+</aside>
+<h1 id='json-api'>JSON API</h1>
+<blockquote>
+<p>A simple JSON API example call:</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code><span class="c"># Simple example of reading a Partner owned property</span>
+curl -i 
+-H <span class="s2">"Accept: application/vnntent-Type:application/vnd.api+json' 
+--user your-partner-id:your-partner-api-secret 
+https://secure.homezada.com/api/v1/properties/123456
+</span></code></pre><pre class="highlight ruby tab-ruby"><code>
+  <span class="nb">require</span> <span class="s2">"net/http"</span>
+  <span class="nb">require</span> <span class="s2">"uri"</span>
+  <span class="nb">require</span> <span class="s2">"json"</span>
+
+  <span class="no">HOMEZADA_PARTNER_API_URL</span> <span class="o">=</span> <span class="s2">"https://secure.homezada.com/api/v1/properties/123456"</span>
+  <span class="n">uri</span> <span class="o">=</span> <span class="no">URI</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="no">HOMEZADA_PARTNER_API_URL</span><span class="p">)</span>
+  <span class="n">http</span> <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">uri</span><span class="p">.</span><span class="nf">host</span><span class="p">,</span> <span class="n">uri</span><span class="p">.</span><span class="nf">port</span><span class="p">)</span>
+  <span class="n">http</span><span class="p">.</span><span class="nf">use_ssl</span> <span class="o">=</span> <span class="kp">true</span> <span class="k">if</span> <span class="n">uri</span><span class="p">.</span><span class="nf">scheme</span> <span class="o">==</span> <span class="s1">'https'</span>
+  <span class="n">request</span> <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="o">::</span><span class="no">Get</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">uri</span><span class="p">.</span><span class="nf">request_uri</span><span class="p">)</span>
+  <span class="n">request</span><span class="p">.</span><span class="nf">basic_auth</span><span class="p">(</span><span class="no">PARTNER_ID</span><span class="p">,</span> <span class="no">PARTNER_API_SECRET</span><span class="p">)</span>
+
+  <span class="n">response</span> <span class="o">=</span> <span class="n">http</span><span class="p">.</span><span class="nf">request</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+  <span class="n">result</span> <span class="o">=</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="nf">body</span><span class="p">)</span> <span class="k">if</span> <span class="n">response</span><span class="p">.</span><span class="nf">code</span> <span class="o">==</span> <span class="s1">'200'</span>
+</code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> 
+  </span><span class="p">{</span><span class="w"> 
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123456"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"properties"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"links"</span><span class="p">:</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"self"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://secure.homezada.com/api/v1/properties/12356"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="s2">"attributes"</span><span class="p">:</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Our Forever Home"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"A really long description could go here with /n newlines."</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"address1"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5567 Deerhorn Lane"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"address2"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"city"</span><span class="p">:</span><span class="w"> </span><span class="s2">"North Vancouver"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"British Columbia"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"zip"</span><span class="p">:</span><span class="w"> </span><span class="s2">"V7R 4T3"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"date-built"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1970-01-10"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"number-of-bedrooms"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"number-of-bathrooms"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.5"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"square-feet"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3200 sq ft"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"lot-size"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6000 sq ft"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"properties-type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SingleFamily"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"parking-type"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"cooling-system"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"heating-system"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"fireplace"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"latitude-longitude"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"county"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"parcel-number"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"census-tract-number"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"country"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CA"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"is-template"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"pro-status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BuySell Transfer"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"customer-name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Example Buyer"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"customer-email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"example-buyerv@homezada.com"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"customer-phone"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"customer-mobile"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"purchase-price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6250002.0"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"purchase-date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1970-03-05"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"appraisal-value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"515000.0"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"appraisal-date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1970-09-15"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"property-tax-value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"496000.0"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"property-tax-date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2012-07-22"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"sold-price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"695000.0"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"sold-date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1970-09-15"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"buildings-insurance-value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2000000.5"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"buildings-insurance-renewal-date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2014-06-25"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"contents-insurance-value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"50000.0"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"contents-insurance-renewal-date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2014-06-25"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"has-ground-pool"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Previous"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"property-tax-assessed-year"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+  </span><span class="s2">"relationships"</span><span class="p">:</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"photos"</span><span class="p">:</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"links"</span><span class="p">:</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"self"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://secure.homezada.com/api/v1/properties/1/relationships/photos"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"related"</span><span class="p">:</span><span class="s2">"https://secure.homezada.com/api/v1/properties/1/relationships/photos"</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="s2">"meta"</span><span class="p">:</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"copyright"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Copyright 2020 - HomeZada Inc."</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"last_updated_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-10-22 22:03:00 UTC"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2011-11-23 00:58:12 UTC"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>The HomeZada APIs are build around the concepts of the JSON API specification. The API supports creating, updating, deleting, and fetching resources and relationships via HTTPS verbs. More info on the JSON API specification can be found at <a href="https://jsonapi.org/">https://jsonapi.org/</a>.</p>
 <h1 id='authentication'>Authentication</h1>
 <blockquote>
 <p>To authorize, use this code:</p>
@@ -289,7 +402,21 @@ curl <span class="s2">"api_endpoint_here"</span>
 <aside class="notice">
 You must replace <code>meowmeowmeow</code> with your personal API key.
 </aside>
-<h1 id='users'>Users</h1><h2 id='get-all-users'>Get All Users</h2><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
+<h1 id='versioning'>Versioning</h1>
+<p>The API is versioned and can be access from the following root address per version:</p>
+
+<p><code>/api/v1</code></p>
+
+<p>Staging and API sandbox data can be accessed via</p>
+
+<p><a href="https://staging.homezada.com/api/v1">https://staging.homezada.com/api/v1</a></p>
+
+<p>The production data can be accessed via</p>
+
+<p><a href="https://secure.homezada.com/api/v1">https://secure.homezada.com/api/v1</a></p>
+<h1 id='users'>Users</h1>
+<p>A users is a regular consumer account. When created via this API it will be associated with the Partner id.</p>
+<h2 id='get-all-users'>Get All Users</h2><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
 
 <span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
 <span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">get</span>
