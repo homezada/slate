@@ -17,11 +17,12 @@ search: true
 
 # HomeZada Partner API
 
-Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.
+Welcome to the HomeZada Partner Integration API. You can use our API to access HomeZada API endpoints, which can get information on various Properties in your partner store.
 
-We have language bindings in Shell, Ruby, Python, and JavaScript! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
+We have language bindings in Shell and Ruby. You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
 
-This example API documentation page was created with [Slate](https://github.com/lord/slate). Feel free to edit it and use it as a base for your own API's documentation.
+For questions about this API, or for help in setting up a new Partner account, please email us [here](mailto:info@homezada.com).
+
 
 # Authentication
 
@@ -63,9 +64,9 @@ Kittn expects for the API key to be included in all API requests to the server i
 You must replace <code>meowmeowmeow</code> with your personal API key.
 </aside>
 
-# Kittens
+# Users
 
-## Get All Kittens
+## Get All Users
 
 ```ruby
 require 'kittn'
@@ -131,7 +132,7 @@ available | true | If set to false, the result will include kittens that have al
 Remember — a happy kitten is an authenticated kitten!
 </aside>
 
-## Get a Specific Kitten
+## Get a Specific User
 
 ```ruby
 require 'kittn'
@@ -185,7 +186,7 @@ Parameter | Description
 --------- | -----------
 ID | The ID of the kitten to retrieve
 
-## Delete a Specific Kitten
+## Delete a Specific User
 
 ```ruby
 require 'kittn'
