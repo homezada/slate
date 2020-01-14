@@ -248,11 +248,43 @@
               </ul>
           </li>
           <li>
+            <a href="#professionals" class="toc-h1 toc-link" data-title="Professionals">Professionals</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#get-all-professionals" class="toc-h2 toc-link" data-title="Get All Professionals">Get All Professionals</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#properties" class="toc-h1 toc-link" data-title="Properties">Properties</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#get-all-properties" class="toc-h2 toc-link" data-title="Get All Properties">Get All Properties</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#photos" class="toc-h1 toc-link" data-title="Photos">Photos</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#get-all-photos" class="toc-h2 toc-link" data-title="Get All Photos">Get All Photos</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#documents" class="toc-h1 toc-link" data-title="Documents">Documents</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#get-all-documents" class="toc-h2 toc-link" data-title="Get All Documents">Get All Documents</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
             <a href="#errors" class="toc-h1 toc-link" data-title="Errors">Errors</a>
           </li>
       </ul>
         <ul class="toc-footer">
-            <li><a href='#'>Sign Up for a Developer Key</a></li>
+            <li><a href='mailto:info@homezada.com'>Contact Us for a Partner API Key</a></li>
             <li><a href='https://github.com/lord/slate'>Documentation Powered by Slate</a></li>
         </ul>
     </div>
@@ -371,7 +403,7 @@ https://secure.homezada.com/api/v1/properties/123456
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>The HomeZada APIs are build around the concepts of the JSON API specification. The API supports creating, updating, deleting, and fetching resources and relationships via HTTPS verbs. More info on the JSON API specification can be found at <a href="https://jsonapi.org/">https://jsonapi.org/</a>.</p>
+<p>The HomeZada APIs are built around the concepts of the JSON API specification. The API supports creating, updating, deleting, and fetching resources and relationships via HTTPS verbs. More info on the JSON API specification can be found at <a href="https://jsonapi.org/">https://jsonapi.org/</a>.</p>
 <h1 id='authentication'>Authentication</h1>
 <blockquote>
 <p>To authorize, use this code:</p>
@@ -415,7 +447,11 @@ You must replace <code>meowmeowmeow</code> with your personal API key.
 
 <p><a href="https://secure.homezada.com/api/v1">https://secure.homezada.com/api/v1</a></p>
 <h1 id='users'>Users</h1>
-<p>A users is a regular consumer account. When created via this API it will be associated with the Partner id.</p>
+<p>A User is a regular HomeZada consumer account. When created via this API it will be associated with the Partner id automatically.</p>
+
+<aside class="notice">
+A new account is created with a random strong password. Please use the Password Reset with the associated email address on the account.
+</aside>
 <h2 id='get-all-users'>Get All Users</h2><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
 
 <span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
@@ -559,7 +595,15 @@ Remember — a happy kitten is an authenticated kitten!
 <td>The ID of the kitten to delete</td>
 </tr>
 </tbody></table>
-<h1 id='errors'>Errors</h1>
+<h1 id='professionals'>Professionals</h1>
+<p>A Professional is a business oriented HomeZada account. When created via this API it will be associated with the Partner id.</p>
+<h2 id='get-all-professionals'>Get All Professionals</h2><h1 id='properties'>Properties</h1>
+<p>A Property is a physical property that belongs to either a User or a Professional. When created via this API it will be associated with the Partner id.</p>
+<h2 id='get-all-properties'>Get All Properties</h2><h1 id='photos'>Photos</h1>
+<p>A Property is a physical property that belongs to either a User or a Professional. When created via this API it will be associated with the Partner id.</p>
+<h2 id='get-all-photos'>Get All Photos</h2><h1 id='documents'>Documents</h1>
+<p>A Property is a physical property that belongs to either a User or a Professional. When created via this API it will be associated with the Partner id.</p>
+<h2 id='get-all-documents'>Get All Documents</h2><h1 id='errors'>Errors</h1>
 <aside class="notice">
 This error section is stored in a separate file in <code>includes/_errors.md</code>. Slate allows you to optionally separate out your docs into many files...just save them to the <code>includes</code> folder and add them to the top of your <code>index.md</code>'s frontmatter. Files are included in the order listed.
 </aside>
