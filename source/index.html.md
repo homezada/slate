@@ -142,40 +142,38 @@ The HomeZada APIs are built around the concepts of the JSON API specification. T
 
 > To authorize, use this code:
 
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-```
-
 ```shell
-# With shell, you can just pass the correct header with each request
-curl "api_endpoint_here"
-  -H "Authorization: meowmeowmeow"
+# Simple example of reading a Partner owned property
+curl -i 
+-H "Accept: application/vnntent-Type:application/vnd.api+json' 
+--user PARTNER_ID:PARTNER_API_SECRET 
+https://secure.homezada.com/api/v1/properties/123456
 ```
 
-```javascript
-const kittn = require('kittn');
+```ruby
+  require "net/http"
+  require "uri"
+  require "json"
 
-let api = kittn.authorize('meowmeowmeow');
+  HOMEZADA_PARTNER_API_URL = "https://secure.homezada.com/api/v1/properties/123456"
+  uri = URI.parse(HOMEZADA_PARTNER_API_URL)
+  http = Net::HTTP.new(uri.host, uri.port)
+  http.use_ssl = true if uri.scheme == 'https'
+  request = Net::HTTP::Get.new(uri.request_uri)
+  request.basic_auth(PARTNER_ID, PARTNER_API_SECRET)
+  
+  response = http.request(request)
+  result = JSON.parse(response.body) if response.code == '200'
 ```
 
-> Make sure to replace `meowmeowmeow` with your API key.
+> Make sure to replace `PARTNER_ID` with your API key and `PARTNER_API_SECRET` with your API secret.
 
-Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
+In order to use the HomeZada Partner API, you must obtain a credentials pair (API Key, API Secret) from your Partner settings page. If you do not see this option, you may not be a Partner Admin role, so for access please contact us at [info@homezada.com](mailto:info@homezada.com).
 
-Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
-
-`Authorization: meowmeowmeow`
+Authentication of API requests is made using HTTP Basic Authentication. Use your API Key as the user name and your API Secret as the password for Basic Authentication. HTTPS must be used for all API requests.
 
 <aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
+You must replace <code>PARTNER_ID</code> with your Partner API key and <code>PARTNER_API_SECRET</code> with your Partner API secret in the examples provided.
 </aside>
 
 # Versioning
@@ -192,6 +190,177 @@ The production data can be accessed via
 
 [https://secure.homezada.com/api/v1](https://secure.homezada.com/api/v1)
 
+# Common Parameters
+
+
+The JSON API spec provides a set of common query parameters to allow you to easily sort, filter, nest and page data. Examples are provided on the right.
+
+## Sorting
+The <code>'sort='</code> parameter is used, using the full type parent.child attribute identifier.
+
+```shell
+# Sort by ascending email
+curl -i 
+-H "Accept: application/vnntent-Type:application/vnd.api+json' 
+--user PARTNER_ID:PARTNER_API_SECRET 
+https://secure.homezada.com/api/v1/users?sort=email
+```
+```ruby
+# Sort by ascending created data timestamp
+require "net/http"
+require "uri"
+require "json"
+
+HOMEZADA_PARTNER_API_URL = "https://secure.homezada.com/api/v1/properties/123456"
+uri = URI.parse(HOMEZADA_PARTNER_API_URL)
+params = { sort: "email" }
+uri.query = URI.encode_www_form( params )
+
+http = Net::HTTP.new(uri.host, uri.port)
+http.use_ssl = true if uri.scheme == 'https'
+request = Net::HTTP::Get.new(uri.request_uri)
+request.basic_auth(PARTNER_ID, PARTNER_API_SECRET)
+
+response = http.request(request)
+result = JSON.parse(response.body) if response.code == '200'
+````
+
+```shell
+# Sort by descending property name then country
+curl -i 
+-H "Accept: application/vnntent-Type:application/vnd.api+json' 
+--user PARTNER_ID:PARTNER_API_SECRET 
+https://secure.homezada.com/api/v1/properties?sort=-name,country
+```
+
+```ruby
+# Sort by descending property name then country
+require "net/http"
+require "uri"
+require "json"
+
+HOMEZADA_PARTNER_API_URL = "https://secure.homezada.com/api/v1/properties/123456"
+uri = URI.parse(HOMEZADA_PARTNER_API_URL)
+params = { sort: "-name,country" }
+uri.query = URI.encode_www_form( params )
+
+http = Net::HTTP.new(uri.host, uri.port)
+http.use_ssl = true if uri.scheme == 'https'
+request = Net::HTTP::Get.new(uri.request_uri)
+request.basic_auth(PARTNER_ID, PARTNER_API_SECRET)
+
+response = http.request(request)
+result = JSON.parse(response.body) if response.code == '200'
+````
+## Pagination
+
+The <code>page[number]=</code> and <code>page[size]=</code> parameters can be used. The default page size (and maximium at this time) is 50.
+
+```shell
+# Paging example on users
+curl -i 
+-H "Accept: application/vnntent-Type:application/vnd.api+json' 
+--user PARTNER_ID:PARTNER_API_SECRET 
+https://secure.homezada.com/api/v1/users?page[number]=1&page[size]=3
+````
+
+```ruby
+# Sort by descending property name then country
+require "net/http"
+require "uri"
+require "json"
+
+HOMEZADA_PARTNER_API_URL = "https://secure.homezada.com/api/v1/properties/123456"
+uri = URI.parse(HOMEZADA_PARTNER_API_URL)
+params = { "page[number]": "1", "page[size]": "3" }
+uri.query = URI.encode_www_form( params )
+
+http = Net::HTTP.new(uri.host, uri.port)
+http.use_ssl = true if uri.scheme == 'https'
+request = Net::HTTP::Get.new(uri.request_uri)
+request.basic_auth(PARTNER_ID, PARTNER_API_SECRET)
+
+response = http.request(request)
+result = JSON.parse(response.body) if response.code == '200'
+````
+
+> The following JSON is returned for a paged request
+
+```json
+{
+   "data":[
+      {
+         "id":"1311",
+         "type":"users",
+         "links":{
+            "self":"https://secure.homezada.com/api/v1/users/1311"
+         },
+         "attributes":{
+            "name":"David",
+            "email":"ding+sdkexample1@homezada.com"
+         },
+         "meta":{
+            "copyright":"Copyright 2020 - HomeZada Inc.",
+            "last_updated_at":"2020-01-08 17:11:03 UTC",
+            "created_at":"2010-11-23 00:57:15 UTC"
+         }
+      },
+      {
+         "id":"60122",
+         "type":"professionals",
+         "links":{
+            "self":"https://secure.homezada.com/api/v1/professionals/60122"
+         },
+         "attributes":{
+            "name":"David Professional",
+            "first-name":"David",
+            "last-name":"Professional",
+            "email":"ding+sdkexample2@homezada.com",
+            "company-name":"UniqueName",
+            "phone":"+1 604 307 1131",
+            "facebook":"https://facebook.com/1234",
+            "twitter":"https://twitter.com/_david_ing",
+            "linkedin":"",
+            "contact-email":"123@gmail.com",
+            "website":"www.test.com",
+            "company-market":"Real Estate",
+            "industry-license-info":"CalBRE #01039089",
+            "company-logo":"https://homezada-dev-env.s3.amazonaws.com/uploads/professional/company_logo/60/clean_all_of_your_small_appliances.jpg",
+            "headshot":"https://homezada-dev-env.s3.amazonaws.com/uploads/professional/headshot/60/3.jpg"
+         },
+         "meta":{
+            "copyright":"Copyright 2020 - HomeZada Inc.",
+            "last_updated_at":"2019-10-15 02:21:41 UTC",
+            "created_at":"2012-10-26 21:48:55 UTC"
+         }
+      },
+      {
+         "id":"222",
+         "type":"users",
+         "links":{
+            "self":"https://secure.homezada.com/api/v1/users/222"
+         },
+         "attributes":{
+            "name":"buy gift",
+            "email":"ding+sdkexample3@homezada.com"
+         },
+         "meta":{
+            "copyright":"Copyright 2020 - HomeZada Inc.",
+            "last_updated_at":"2013-12-10 22:56:33 UTC",
+            "created_at":"2013-12-10 22:54:24 UTC"
+         }
+      },
+   ],
+   "meta":{
+      "record-count":3,
+      "page-count":1
+   },
+   "links":{
+      "first":"http://localhost:3000/api/v1/users?page%5Bnumber%5D=1&page%5Bsize%5D=50",
+      "last":"http://localhost:3000/api/v1/users?page%5Bnumber%5D=1&page%5Bsize%5D=50"
+   }
+}
+````
 
 # Users
 
