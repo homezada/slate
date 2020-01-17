@@ -248,10 +248,13 @@
             <a href="#users" class="toc-h1 toc-link" data-title="Users">Users</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#get-all-users" class="toc-h2 toc-link" data-title="Get All Users">Get All Users</a>
+                    <a href="#get-list-of-users" class="toc-h2 toc-link" data-title="Get List of Users">Get List of Users</a>
                   </li>
                   <li>
                     <a href="#get-a-specific-user" class="toc-h2 toc-link" data-title="Get a Specific User">Get a Specific User</a>
+                  </li>
+                  <li>
+                    <a href="#update-a-specific-user" class="toc-h2 toc-link" data-title="Update a Specific User">Update a Specific User</a>
                   </li>
                   <li>
                     <a href="#delete-a-specific-user" class="toc-h2 toc-link" data-title="Delete a Specific User">Delete a Specific User</a>
@@ -264,6 +267,15 @@
                   <li>
                     <a href="#get-all-professionals" class="toc-h2 toc-link" data-title="Get All Professionals">Get All Professionals</a>
                   </li>
+                  <li>
+                    <a href="#get-a-specific-professional" class="toc-h2 toc-link" data-title="Get a Specific Professional">Get a Specific Professional</a>
+                  </li>
+                  <li>
+                    <a href="#update-a-specific-professional" class="toc-h2 toc-link" data-title="Update a Specific Professional">Update a Specific Professional</a>
+                  </li>
+                  <li>
+                    <a href="#delete-a-specific-professional" class="toc-h2 toc-link" data-title="Delete a Specific Professional">Delete a Specific Professional</a>
+                  </li>
               </ul>
           </li>
           <li>
@@ -271,6 +283,15 @@
               <ul class="toc-list-h2">
                   <li>
                     <a href="#get-all-properties" class="toc-h2 toc-link" data-title="Get All Properties">Get All Properties</a>
+                  </li>
+                  <li>
+                    <a href="#get-a-specific-property" class="toc-h2 toc-link" data-title="Get a Specific Property">Get a Specific Property</a>
+                  </li>
+                  <li>
+                    <a href="#update-a-specific-property" class="toc-h2 toc-link" data-title="Update a Specific Property">Update a Specific Property</a>
+                  </li>
+                  <li>
+                    <a href="#delete-a-specific-property" class="toc-h2 toc-link" data-title="Delete a Specific Property">Delete a Specific Property</a>
                   </li>
               </ul>
           </li>
@@ -465,12 +486,12 @@ You must replace <code>PARTNER_ID</code> with your Partner API key and <code>PAR
 <p>The JSON API spec provides a set of common query parameters to allow you to easily sort, filter, nest and page data. Examples are provided on the right.</p>
 <h2 id='sorting'>Sorting</h2>
 <p>The <code>&#39;sort=&#39;</code> parameter is used, using the full type parent.child attribute identifier.</p>
-<pre class="highlight shell tab-shell"><code><span class="c"># Sort by ascending email</span>
+<pre class="highlight shell tab-shell"><code><span class="c"># Sort by ascending user email</span>
 curl -i 
 -H <span class="s2">"Accept: application/vnntent-Type:application/vnd.api+json' 
 --user PARTNER_ID:PARTNER_API_SECRET 
 https://secure.homezada.com/api/v1/users?sort=email
-</span></code></pre><pre class="highlight ruby tab-ruby"><code><span class="c1"># Sort by ascending created data timestamp</span>
+</span></code></pre><pre class="highlight ruby tab-ruby"><code><span class="c1"># Sort by ascending user email</span>
 <span class="nb">require</span> <span class="s2">"net/http"</span>
 <span class="nb">require</span> <span class="s2">"uri"</span>
 <span class="nb">require</span> <span class="s2">"json"</span>
@@ -611,103 +632,170 @@ https://secure.homezada.com/api/v1/users?page[number]=1&amp;page[size]=3
    </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre><h1 id='users'>Users</h1>
-<p>A User is a regular HomeZada consumer account. When created via this API it will be associated with the Partner id automatically.</p>
+<p>A User is a regular HomeZada consumer account. When created via this API it will be associated with the Partner account of the caller automatically.</p>
+
+<p>A Professional account can be used as a regular user and will also be returned in the List Users. To get just the list of Professionals please use the specific Professonial endpoint <code>/professionals</code>.</p>
 
 <aside class="notice">
-A new account is created with a random strong password. Please use the Password Reset with the associated email address on the account.
+A new User account is created with a random strong password. Please use the Password Reset with the associated email address on the account.
 </aside>
-<h2 id='get-all-users'>Get All Users</h2><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
+<h2 id='get-list-of-users'>Get List of Users</h2><pre class="highlight ruby tab-ruby"><code><span class="c1"># Get List of Users</span>
+<span class="nb">require</span> <span class="s2">"net/http"</span>
+<span class="nb">require</span> <span class="s2">"uri"</span>
+<span class="nb">require</span> <span class="s2">"json"</span>
 
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">get</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
+<span class="no">HOMEZADA_PARTNER_API_URL</span> <span class="o">=</span> <span class="s2">"https://secure.homezada.com/api/v1/users"</span>
+<span class="n">uri</span> <span class="o">=</span> <span class="no">URI</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="no">HOMEZADA_PARTNER_API_URL</span><span class="p">)</span>
 
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="o">.</span><span class="n">kittens</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
-</code></pre><pre class="highlight shell tab-shell"><code>curl <span class="s2">"http://example.com/api/kittens"</span>
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'kittn'</span><span class="p">);</span>
+<span class="n">http</span> <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">uri</span><span class="p">.</span><span class="nf">host</span><span class="p">,</span> <span class="n">uri</span><span class="p">.</span><span class="nf">port</span><span class="p">)</span>
+<span class="n">http</span><span class="p">.</span><span class="nf">use_ssl</span> <span class="o">=</span> <span class="kp">true</span> <span class="k">if</span> <span class="n">uri</span><span class="p">.</span><span class="nf">scheme</span> <span class="o">==</span> <span class="s1">'https'</span>
+<span class="n">request</span> <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="o">::</span><span class="no">Get</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">uri</span><span class="p">.</span><span class="nf">request_uri</span><span class="p">)</span>
+<span class="n">request</span><span class="p">.</span><span class="nf">basic_auth</span><span class="p">(</span><span class="no">PARTNER_ID</span><span class="p">,</span> <span class="no">PARTNER_API_SECRET</span><span class="p">)</span>
 
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">);</span>
-<span class="kd">let</span> <span class="nx">kittens</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">kittens</span><span class="p">.</span><span class="nx">get</span><span class="p">();</span>
-</code></pre>
-<blockquote>
-<p>The above command returns JSON structured like this:</p>
-</blockquote>
-<pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Fluffums"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"calico"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Max"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unknown"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">]</span><span class="w">
+<span class="n">response</span> <span class="o">=</span> <span class="n">http</span><span class="p">.</span><span class="nf">request</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="nf">body</span><span class="p">)</span> <span class="k">if</span> <span class="n">response</span><span class="p">.</span><span class="nf">code</span> <span class="o">==</span> <span class="s1">'200'</span>
+</code></pre><pre class="highlight shell tab-shell"><code><span class="c"># Get List of Users</span>
+curl -i 
+-H <span class="s2">"Accept: application/vnntent-Type:application/vnd.api+json' 
+--user PARTNER_ID:PARTNER_API_SECRET 
+https://secure.homezada.com/api/v1/users
 </span></code></pre>
-<p>This endpoint retrieves all kittens.</p>
-<h3 id='http-request'>HTTP Request</h3>
-<p><code>GET http://example.com/api/kittens</code></p>
-<h3 id='query-parameters'>Query Parameters</h3>
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Default</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>include_cats</td>
-<td>false</td>
-<td>If set to true, the result will also include cats.</td>
-</tr>
-<tr>
-<td>available</td>
-<td>true</td>
-<td>If set to false, the result will include kittens that have already been adopted.</td>
-</tr>
-</tbody></table>
-
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
-<h2 id='get-a-specific-user'>Get a Specific User</h2><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="o">.</span><span class="n">kittens</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre><pre class="highlight shell tab-shell"><code>curl <span class="s2">"http://example.com/api/kittens/2"</span>
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'kittn'</span><span class="p">);</span>
-
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">);</span>
-<span class="kd">let</span> <span class="nx">max</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">kittens</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
-</code></pre>
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Max"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unknown"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
+   </span><span class="s2">"data"</span><span class="p">:[</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+         </span><span class="s2">"id"</span><span class="p">:</span><span class="s2">"1311"</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"type"</span><span class="p">:</span><span class="s2">"users"</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"links"</span><span class="p">:{</span><span class="w">
+            </span><span class="s2">"self"</span><span class="p">:</span><span class="s2">"https://secure.homezada.com/api/v1/users/1311"</span><span class="w">
+         </span><span class="p">},</span><span class="w">
+         </span><span class="s2">"attributes"</span><span class="p">:{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="s2">"David"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"email"</span><span class="p">:</span><span class="s2">"ding+sdkexample1@homezada.com"</span><span class="w">
+         </span><span class="p">},</span><span class="w">
+         </span><span class="s2">"meta"</span><span class="p">:{</span><span class="w">
+            </span><span class="s2">"copyright"</span><span class="p">:</span><span class="s2">"Copyright 2020 - HomeZada Inc."</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"last_updated_at"</span><span class="p">:</span><span class="s2">"2020-01-08 17:11:03 UTC"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"created_at"</span><span class="p">:</span><span class="s2">"2010-11-23 00:57:15 UTC"</span><span class="w">
+         </span><span class="p">}</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+         </span><span class="s2">"id"</span><span class="p">:</span><span class="s2">"60122"</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"type"</span><span class="p">:</span><span class="s2">"professionals"</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"links"</span><span class="p">:{</span><span class="w">
+            </span><span class="s2">"self"</span><span class="p">:</span><span class="s2">"https://secure.homezada.com/api/v1/professionals/60122"</span><span class="w">
+         </span><span class="p">},</span><span class="w">
+         </span><span class="s2">"attributes"</span><span class="p">:{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="s2">"David Professional"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"first-name"</span><span class="p">:</span><span class="s2">"David"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"last-name"</span><span class="p">:</span><span class="s2">"Professional"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"email"</span><span class="p">:</span><span class="s2">"ding+sdkexample2@homezada.com"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"company-name"</span><span class="p">:</span><span class="s2">"UniqueName"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"phone"</span><span class="p">:</span><span class="s2">"+1 604 307 1131"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"facebook"</span><span class="p">:</span><span class="s2">"https://facebook.com/1234"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"twitter"</span><span class="p">:</span><span class="s2">"https://twitter.com/_david_ing"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"linkedin"</span><span class="p">:</span><span class="s2">""</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"contact-email"</span><span class="p">:</span><span class="s2">"123@gmail.com"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"website"</span><span class="p">:</span><span class="s2">"www.test.com"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"company-market"</span><span class="p">:</span><span class="s2">"Real Estate"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"industry-license-info"</span><span class="p">:</span><span class="s2">"CalBRE #01039089"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"company-logo"</span><span class="p">:</span><span class="s2">"https://homezada-dev-env.s3.amazonaws.com/uploads/professional/company_logo/60/clean_all_of_your_small_appliances.jpg"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"headshot"</span><span class="p">:</span><span class="s2">"https://homezada-dev-env.s3.amazonaws.com/uploads/professional/headshot/60/3.jpg"</span><span class="w">
+         </span><span class="p">},</span><span class="w">
+         </span><span class="s2">"meta"</span><span class="p">:{</span><span class="w">
+            </span><span class="s2">"copyright"</span><span class="p">:</span><span class="s2">"Copyright 2020 - HomeZada Inc."</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"last_updated_at"</span><span class="p">:</span><span class="s2">"2019-10-15 02:21:41 UTC"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"created_at"</span><span class="p">:</span><span class="s2">"2012-10-26 21:48:55 UTC"</span><span class="w">
+         </span><span class="p">}</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+         </span><span class="s2">"id"</span><span class="p">:</span><span class="s2">"222"</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"type"</span><span class="p">:</span><span class="s2">"users"</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"links"</span><span class="p">:{</span><span class="w">
+            </span><span class="s2">"self"</span><span class="p">:</span><span class="s2">"https://secure.homezada.com/api/v1/users/222"</span><span class="w">
+         </span><span class="p">},</span><span class="w">
+         </span><span class="s2">"attributes"</span><span class="p">:{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="s2">"buy gift"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"email"</span><span class="p">:</span><span class="s2">"ding+sdkexample3@homezada.com"</span><span class="w">
+         </span><span class="p">},</span><span class="w">
+         </span><span class="s2">"meta"</span><span class="p">:{</span><span class="w">
+            </span><span class="s2">"copyright"</span><span class="p">:</span><span class="s2">"Copyright 2020 - HomeZada Inc."</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"last_updated_at"</span><span class="p">:</span><span class="s2">"2013-12-10 22:56:33 UTC"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"created_at"</span><span class="p">:</span><span class="s2">"2013-12-10 22:54:24 UTC"</span><span class="w">
+         </span><span class="p">}</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+   </span><span class="p">],</span><span class="w">
+   </span><span class="s2">"meta"</span><span class="p">:{</span><span class="w">
+      </span><span class="s2">"record-count"</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"page-count"</span><span class="p">:</span><span class="mi">1</span><span class="w">
+   </span><span class="p">},</span><span class="w">
+   </span><span class="s2">"links"</span><span class="p">:{</span><span class="w">
+      </span><span class="s2">"first"</span><span class="p">:</span><span class="s2">"https://secure.homezada.com/api/v1/users?page%5Bnumber%5D=1&amp;page%5Bsize%5D=50"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"last"</span><span class="p">:</span><span class="s2">"https://secure.homezada.com/api/v1/users?page%5Bnumber%5D=1&amp;page%5Bsize%5D=50"</span><span class="w">
+   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>This endpoint retrieves a specific kitten.</p>
+<p>This endpoint retrieves all users.</p>
+<h3 id='http-request'>HTTP Request</h3>
+<p><code>GET https://secure.homezada.com/api/v1/users</code></p>
+<h3 id='data-fields'>Data Fields</h3>
+<p>None</p>
 
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
+<aside class="success">
+Remember — only User accounts associated with your Partner account will be returned.
+</aside>
+<h2 id='get-a-specific-user'>Get a Specific User</h2><pre class="highlight ruby tab-ruby"><code><span class="c1"># Get a Specific User</span>
+<span class="nb">require</span> <span class="s2">"net/http"</span>
+<span class="nb">require</span> <span class="s2">"uri"</span>
+<span class="nb">require</span> <span class="s2">"json"</span>
+
+<span class="c1"># Note: Id '123' appended to URL</span>
+<span class="no">HOMEZADA_PARTNER_API_URL</span> <span class="o">=</span> <span class="s2">"https://secure.homezada.com/api/v1/users/123"</span>
+<span class="n">uri</span> <span class="o">=</span> <span class="no">URI</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="no">HOMEZADA_PARTNER_API_URL</span><span class="p">)</span>
+
+<span class="n">http</span> <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">uri</span><span class="p">.</span><span class="nf">host</span><span class="p">,</span> <span class="n">uri</span><span class="p">.</span><span class="nf">port</span><span class="p">)</span>
+<span class="n">http</span><span class="p">.</span><span class="nf">use_ssl</span> <span class="o">=</span> <span class="kp">true</span> <span class="k">if</span> <span class="n">uri</span><span class="p">.</span><span class="nf">scheme</span> <span class="o">==</span> <span class="s1">'https'</span>
+<span class="n">request</span> <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="o">::</span><span class="no">Get</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">uri</span><span class="p">.</span><span class="nf">request_uri</span><span class="p">)</span>
+<span class="n">request</span><span class="p">.</span><span class="nf">basic_auth</span><span class="p">(</span><span class="no">PARTNER_ID</span><span class="p">,</span> <span class="no">PARTNER_API_SECRET</span><span class="p">)</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">http</span><span class="p">.</span><span class="nf">request</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="nf">body</span><span class="p">)</span> <span class="k">if</span> <span class="n">response</span><span class="p">.</span><span class="nf">code</span> <span class="o">==</span> <span class="s1">'200'</span>
+</code></pre><pre class="highlight shell tab-shell"><code><span class="c"># Get a Specific User</span>
+curl -i 
+-H <span class="s2">"Accept: application/vnntent-Type:application/vnd.api+json' 
+--user PARTNER_ID:PARTNER_API_SECRET 
+https://secure.homezada.com/api/v1/users/123
+</span></code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="err">data</span><span class="p">:</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="err">id</span><span class="p">:</span><span class="w"> </span><span class="s2">"123"</span><span class="p">,</span><span class="w">
+    </span><span class="err">type</span><span class="p">:</span><span class="w"> </span><span class="s2">"users"</span><span class="p">,</span><span class="w">
+    </span><span class="err">links</span><span class="p">:</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="err">self</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://localhost:3000/api/v1/users/123"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="err">attributes</span><span class="p">:</span><span class="w"> 
+    </span><span class="p">{</span><span class="w">
+      </span><span class="err">name</span><span class="p">:</span><span class="w"> </span><span class="s2">"David"</span><span class="p">,</span><span class="w">
+      </span><span class="err">email</span><span class="p">:</span><span class="w"> </span><span class="s2">"example@homezada.com"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="err">meta</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="err">copyright</span><span class="p">:</span><span class="w"> </span><span class="s2">"Copyright 2020 - HomeZada Inc."</span><span class="p">,</span><span class="w">
+      </span><span class="err">last_updated_at</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-01-08 17:11:03 UTC"</span><span class="p">,</span><span class="w">
+      </span><span class="err">created_at</span><span class="p">:</span><span class="w"> </span><span class="s2">"2010-11-23 00:57:15 UTC"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>This endpoint retrieves a specific User by default by unique ID.</p>
 <h3 id='http-request-2'>HTTP Request</h3>
-<p><code>GET http://example.com/kittens/&lt;ID&gt;</code></p>
+<p><code>GET https://secure.homezada.com/api/v1/users/&lt;ID&gt;</code></p>
 <h3 id='url-parameters'>URL Parameters</h3>
 <table><thead>
 <tr>
@@ -717,36 +805,25 @@ Remember — a happy kitten is an authenticated kitten!
 </thead><tbody>
 <tr>
 <td>ID</td>
-<td>The ID of the kitten to retrieve</td>
+<td>The ID of the User to retrieve</td>
 </tr>
 </tbody></table>
-<h2 id='delete-a-specific-user'>Delete a Specific User</h2><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
+<h2 id='update-a-specific-user'>Update a Specific User</h2><pre class="highlight shell tab-shell"><code><span class="c"># Update a Specific User</span>
+curl -i 
+-H <span class="s2">"Accept: application/vnntent-Type:application/vnd.api+json' 
+--user PARTNER_ID:PARTNER_API_SECRET 
+https://secure.homezada.com/api/v1/users/123
 
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">delete</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
 
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="o">.</span><span class="n">kittens</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre><pre class="highlight shell tab-shell"><code>curl <span class="s2">"http://example.com/api/kittens/2"</span>
-  -X DELETE
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'kittn'</span><span class="p">);</span>
-
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">);</span>
-<span class="kd">let</span> <span class="nx">max</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">kittens</span><span class="p">.</span><span class="k">delete</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+curl -i 
+-H "</span>Accept: application/vnd.api+json<span class="s2">" -H 'Content-Type:application/vnd.api+json' 
+--user PARTNER_ID:PARTNER_API_SECRET 
+-X PUT -d '{"</span>data<span class="s2">": {"</span><span class="nb">type</span><span class="s2">":"</span>users<span class="s2">", "</span>attributes<span class="s2">":{"</span>name<span class="s2">":"</span>NewName<span class="s2">", "</span>email<span class="s2">":"</span>john.doe@example.test<span class="s2">"}}}' https://secure.homezada.com/api/v1/users/123
+</span></code></pre><pre class="highlight ruby tab-ruby"><code><span class="c1"># TDB please see Shell Example</span>
 </code></pre>
-<blockquote>
-<p>The above command returns JSON structured like this:</p>
-</blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"deleted"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">":("</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-<p>This endpoint deletes a specific kitten.</p>
+<p>This endpoint updates a specific User by unique ID.</p>
 <h3 id='http-request-3'>HTTP Request</h3>
-<p><code>DELETE http://example.com/kittens/&lt;ID&gt;</code></p>
+<p><code>PUT https://secure.homezada.com/api/v1/users/&lt;ID&gt;</code></p>
 <h3 id='url-parameters-2'>URL Parameters</h3>
 <table><thead>
 <tr>
@@ -756,23 +833,60 @@ Remember — a happy kitten is an authenticated kitten!
 </thead><tbody>
 <tr>
 <td>ID</td>
-<td>The ID of the kitten to delete</td>
+<td>The ID of the User to retrieve</td>
+</tr>
+</tbody></table>
+<h3 id='data-fields-2'>Data Fields</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>name</td>
+<td>The name of the User to update. Required field.</td>
+</tr>
+<tr>
+<td>email</td>
+<td>The email of the User to update. Required field.</td>
+</tr>
+</tbody></table>
+<h2 id='delete-a-specific-user'>Delete a Specific User</h2><pre class="highlight ruby tab-ruby"><code><span class="c1"># TDB please see Shell Example</span>
+</code></pre><pre class="highlight shell tab-shell"><code>curl -i 
+-H <span class="s2">"Accept: application/vnd.api+json"</span> -H <span class="s1">'Content-Type:application/vnd.api+json'</span> 
+--user PARTNER_ID:PARTNER_API_SECRET 
+-X DELETE https://secure.homezada.com/api/v1/users/123
+</code></pre>
+<p>This endpoint deletes a specific user.</p>
+
+<aside class="warning">
+An Account destroy action will disable the account. The Partner account security role may have to be changed to allow this action. By default this endpoint is not enabled.
+</aside>
+<h3 id='http-request-4'>HTTP Request</h3>
+<p><code>DELETE https://secure.homezada.com/api/v1/users/&lt;ID&gt;</code></p>
+<h3 id='url-parameters-3'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>ID</td>
+<td>The ID of the User account to delete</td>
 </tr>
 </tbody></table>
 <h1 id='professionals'>Professionals</h1>
 <p>A Professional is a business oriented HomeZada account. When created via this API it will be associated with the Partner id.</p>
-<h2 id='get-all-professionals'>Get All Professionals</h2><h1 id='properties'>Properties</h1>
+<h2 id='get-all-professionals'>Get All Professionals</h2><h2 id='get-a-specific-professional'>Get a Specific Professional</h2><h2 id='update-a-specific-professional'>Update a Specific Professional</h2><h2 id='delete-a-specific-professional'>Delete a Specific Professional</h2><h1 id='properties'>Properties</h1>
 <p>A Property is a physical property that belongs to either a User or a Professional. When created via this API it will be associated with the Partner id.</p>
-<h2 id='get-all-properties'>Get All Properties</h2><h1 id='photos'>Photos</h1>
+<h2 id='get-all-properties'>Get All Properties</h2><h2 id='get-a-specific-property'>Get a Specific Property</h2><h2 id='update-a-specific-property'>Update a Specific Property</h2><h2 id='delete-a-specific-property'>Delete a Specific Property</h2><h1 id='photos'>Photos</h1>
 <p>A Property is a physical property that belongs to either a User or a Professional. When created via this API it will be associated with the Partner id.</p>
 <h2 id='get-all-photos'>Get All Photos</h2><h1 id='documents'>Documents</h1>
 <p>A Property is a physical property that belongs to either a User or a Professional. When created via this API it will be associated with the Partner id.</p>
 <h2 id='get-all-documents'>Get All Documents</h2><h1 id='errors'>Errors</h1>
-<aside class="notice">
-This error section is stored in a separate file in <code>includes/_errors.md</code>. Slate allows you to optionally separate out your docs into many files...just save them to the <code>includes</code> folder and add them to the top of your <code>index.md</code>'s frontmatter. Files are included in the order listed.
-</aside>
-
-<p>The Kittn API uses the following error codes:</p>
+<p>The HomeZada Partner API uses the following error codes at the HTTP request level:</p>
 
 <table><thead>
 <tr>
@@ -786,35 +900,31 @@ This error section is stored in a separate file in <code>includes/_errors.md</co
 </tr>
 <tr>
 <td>401</td>
-<td>Unauthorized -- Your API key is wrong.</td>
+<td>Unauthorized -- Your API key is incorrect or not recognized.</td>
 </tr>
 <tr>
 <td>403</td>
-<td>Forbidden -- The kitten requested is hidden for administrators only.</td>
+<td>Forbidden -- The request is hidden for administrators only.</td>
 </tr>
 <tr>
 <td>404</td>
-<td>Not Found -- The specified kitten could not be found.</td>
+<td>Not Found -- The specified data could not be found.</td>
 </tr>
 <tr>
 <td>405</td>
-<td>Method Not Allowed -- You tried to access a kitten with an invalid method.</td>
+<td>Method Not Allowed -- You tried to access data with an invalid method.</td>
 </tr>
 <tr>
 <td>406</td>
-<td>Not Acceptable -- You requested a format that isn&#39;t json.</td>
+<td>Not Acceptable -- You requested a format that isn&#39;t json api compliant.</td>
 </tr>
 <tr>
 <td>410</td>
-<td>Gone -- The kitten requested has been removed from our servers.</td>
-</tr>
-<tr>
-<td>418</td>
-<td>I&#39;m a teapot.</td>
+<td>Gone -- The data requested has been removed from our servers.</td>
 </tr>
 <tr>
 <td>429</td>
-<td>Too Many Requests -- You&#39;re requesting too many kittens! Slow down!</td>
+<td>Too Many Requests -- The API is being throttled, and will require longer delays between calls.</td>
 </tr>
 <tr>
 <td>500</td>
@@ -823,6 +933,149 @@ This error section is stored in a separate file in <code>includes/_errors.md</co
 <tr>
 <td>503</td>
 <td>Service Unavailable -- We&#39;re temporarily offline for maintenance. Please try again later.</td>
+</tr>
+</tbody></table>
+
+<p>The JSON data supplied returned in any error response will provide additional info as shown in the example on the right.</p>
+
+<blockquote>
+<p>An JSON API error example, for HTTP/1.1 404 Not Found</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="err">errors</span><span class="p">:</span><span class="w">
+  </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="err">title</span><span class="p">:</span><span class="w"> </span><span class="s2">"Record not found"</span><span class="p">,</span><span class="w">
+      </span><span class="err">detail</span><span class="p">:</span><span class="w"> </span><span class="s2">"The record identified by 123 could not be found."</span><span class="p">,</span><span class="w">
+      </span><span class="err">code</span><span class="p">:</span><span class="w"> </span><span class="s2">"RECORD_NOT_FOUND"</span><span class="p">,</span><span class="w">
+      </span><span class="err">status</span><span class="p">:</span><span class="s2">"404"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>The JSON API returns the following error codes.</p>
+
+<table><thead>
+<tr>
+<th>Error Code Text</th>
+<th>Internal Code</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>VALIDATION_ERROR</td>
+<td>&#39;100&#39;</td>
+</tr>
+<tr>
+<td>INVALID_RESOURCE</td>
+<td>&#39;101&#39;</td>
+</tr>
+<tr>
+<td>FILTER_NOT_ALLOWED</td>
+<td>&#39;102&#39;</td>
+</tr>
+<tr>
+<td>INVALID_FIELD_VALUE</td>
+<td>&#39;103&#39;</td>
+</tr>
+<tr>
+<td>INVALID_FIELD</td>
+<td>&#39;104&#39;</td>
+</tr>
+<tr>
+<td>PARAM_NOT_ALLOWED</td>
+<td>&#39;105&#39;</td>
+</tr>
+<tr>
+<td>PARAM_MISSING</td>
+<td>&#39;106&#39;</td>
+</tr>
+<tr>
+<td>INVALID_FILTER_VALUE</td>
+<td>&#39;107&#39;</td>
+</tr>
+<tr>
+<td>KEY_ORDER_MISMATCH</td>
+<td>&#39;109&#39;</td>
+</tr>
+<tr>
+<td>KEY_NOT_INCLUDED_IN_URL</td>
+<td>&#39;110&#39;</td>
+</tr>
+<tr>
+<td>INVALID_INCLUDE</td>
+<td>&#39;112&#39;</td>
+</tr>
+<tr>
+<td>RELATION_EXISTS</td>
+<td>&#39;113&#39;</td>
+</tr>
+<tr>
+<td>INVALID_SORT_CRITERIA</td>
+<td>&#39;114&#39;</td>
+</tr>
+<tr>
+<td>INVALID_LINKS_OBJECT</td>
+<td>&#39;115&#39;</td>
+</tr>
+<tr>
+<td>TYPE_MISMATCH</td>
+<td>&#39;116&#39;</td>
+</tr>
+<tr>
+<td>INVALID_PAGE_OBJECT</td>
+<td>&#39;117&#39;</td>
+</tr>
+<tr>
+<td>INVALID_PAGE_VALUE</td>
+<td>&#39;118&#39;</td>
+</tr>
+<tr>
+<td>INVALID_FIELD_FORMAT</td>
+<td>&#39;119&#39;</td>
+</tr>
+<tr>
+<td>INVALID_FILTERS_SYNTAX</td>
+<td>&#39;120&#39;</td>
+</tr>
+<tr>
+<td>SAVE_FAILED</td>
+<td>&#39;121&#39;</td>
+</tr>
+<tr>
+<td>INVALID_DATA_FORMAT</td>
+<td>&#39;122&#39;</td>
+</tr>
+<tr>
+<td>INVALID_RELATIONSHIP</td>
+<td>&#39;123&#39;</td>
+</tr>
+<tr>
+<td>BAD_REQUEST</td>
+<td>&#39;400&#39;</td>
+</tr>
+<tr>
+<td>FORBIDDEN</td>
+<td>&#39;403&#39;</td>
+</tr>
+<tr>
+<td>RECORD_NOT_FOUND</td>
+<td>&#39;404&#39;</td>
+</tr>
+<tr>
+<td>NOT_ACCEPTABLE</td>
+<td>&#39;406&#39;</td>
+</tr>
+<tr>
+<td>UNSUPPORTED_MEDIA_TYPE</td>
+<td>&#39;415&#39;</td>
+</tr>
+<tr>
+<td>LOCKED</td>
+<td>&#39;423&#39;</td>
+</tr>
+<tr>
+<td>INTERNAL_SERVER_ERROR</td>
+<td>&#39;500&#39;</td>
 </tr>
 </tbody></table>
 
