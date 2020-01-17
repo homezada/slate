@@ -1,3 +1,9 @@
+# Changelog
+
+## December 2019
+
+Initial version, and breaking changes will be listed in this section.
+
 # Errors
 
 The HomeZada Partner API uses the following error codes at the HTTP request level:

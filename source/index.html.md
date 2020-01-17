@@ -17,14 +17,14 @@ search: true
 
 # HomeZada Partner API
 
-Welcome to the HomeZada Partner Integration API documentation. You can use our API to access HomeZada API endpoints, which can get information on various Accounts and Properties in your partner store.
+Welcome to the HomeZada Partner Integration API documentation. You can use our API to access HomeZada API endpoints, which can list, get, update and create information on various Accounts and Properties in your Partner data.
 
-We have language bindings in Shell and Ruby. You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
+We have language binding examples in Shell and Ruby, although any language can be used that supports a HTTP REST style and JSON payloads. You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
 
 For questions about this API, or for help in setting up a new Partner account, please email us [here](mailto:info@homezada.com).
 
 <aside class="success">
-Remember — all data via this API is scoped by the Properties or Accounts only associated with your partner id. No other data is accessible.
+Remember — all data via this API is limited scoped by the Properties or Accounts only associated with your Partner account. No other data is accessible.
 </aside>
 
 # JSON API
@@ -34,7 +34,7 @@ Remember — all data via this API is scoped by the Properties or Accounts only 
 ```shell
 # Simple example of reading a Partner owned property
 curl -i 
--H "Accept: application/vnntent-Type:application/vnd.api+json' 
+-H "Accept: application/vnd.api+json" -H 'Content-Type:application/vnd.api+json'
 --user your-partner-id:your-partner-api-secret 
 https://secure.homezada.com/api/v1/properties/123456
 ```
@@ -135,8 +135,7 @@ https://secure.homezada.com/api/v1/properties/123456
 }
 ```
 
-The HomeZada APIs are built around the concepts of the JSON API specification. The API supports creating, updating, deleting, and fetching resources and relationships via HTTPS verbs. More info on the JSON API specification can be found at [https://jsonapi.org/](https://jsonapi.org/).
-
+The HomeZada APIs are built around the concepts of the **JSON API Specification**. The API supports creating, updating, deleting, and fetching resources and relationships via HTTPS verbs. More detailed info on the JSON API specification can be found at [https://jsonapi.org/](https://jsonapi.org/).
 
 # Authentication
 
@@ -145,7 +144,7 @@ The HomeZada APIs are built around the concepts of the JSON API specification. T
 ```shell
 # Simple example of reading a Partner owned property
 curl -i 
--H "Accept: application/vnntent-Type:application/vnd.api+json' 
+-H "Accept: application/vnd.api+json" -H 'Content-Type:application/vnd.api+json'
 --user PARTNER_ID:PARTNER_API_SECRET 
 https://secure.homezada.com/api/v1/properties/123456
 ```
@@ -182,7 +181,7 @@ The API is versioned and can be access from the following root address per versi
 
 `/api/v1`
 
-Staging and API sandbox data can be accessed via
+Staging and API Sandbox data can be accessed via
 
 [https://staging.homezada.com/api/v1](https://staging.homezada.com/api/v1)
 
@@ -192,7 +191,6 @@ The production data can be accessed via
 
 # Common Parameters
 
-
 The JSON API spec provides a set of common query parameters to allow you to easily sort, filter, nest and page data. Examples are provided on the right.
 
 ## Sorting
@@ -201,7 +199,7 @@ The <code>'sort='</code> parameter is used, using the full type parent.child att
 ```shell
 # Sort by ascending user email
 curl -i 
--H "Accept: application/vnntent-Type:application/vnd.api+json' 
+-H "Accept: application/vnd.api+json" -H 'Content-Type:application/vnd.api+json'
 --user PARTNER_ID:PARTNER_API_SECRET 
 https://secure.homezada.com/api/v1/users?sort=email
 ```
@@ -228,7 +226,7 @@ result = JSON.parse(response.body) if response.code == '200'
 ```shell
 # Sort by descending property name then country
 curl -i 
--H "Accept: application/vnntent-Type:application/vnd.api+json' 
+-H "Accept: application/vnd.api+json" -H 'Content-Type:application/vnd.api+json'
 --user PARTNER_ID:PARTNER_API_SECRET 
 https://secure.homezada.com/api/v1/properties?sort=-name,country
 ```
@@ -259,7 +257,7 @@ The <code>page[number]=</code> and <code>page[size]=</code> parameters can be us
 ```shell
 # Paging example on users
 curl -i 
--H "Accept: application/vnntent-Type:application/vnd.api+json' 
+-H "Accept: application/vnd.api+json" -H 'Content-Type:application/vnd.api+json' 
 --user PARTNER_ID:PARTNER_API_SECRET 
 https://secure.homezada.com/api/v1/users?page[number]=1&page[size]=3
 ````
@@ -395,7 +393,7 @@ result = JSON.parse(response.body) if response.code == '200'
 ```shell
 # Get List of Users
 curl -i 
--H "Accept: application/vnntent-Type:application/vnd.api+json' 
+-H "Accept: application/vnd.api+json" -H 'Content-Type:application/vnd.api+json'
 --user PARTNER_ID:PARTNER_API_SECRET 
 https://secure.homezada.com/api/v1/users
 ```
@@ -516,7 +514,7 @@ result = JSON.parse(response.body) if response.code == '200'
 ```shell
 # Get a Specific User
 curl -i 
--H "Accept: application/vnntent-Type:application/vnd.api+json' 
+-H "Accept: application/vnd.api+json" -H 'Content-Type:application/vnd.api+json'
 --user PARTNER_ID:PARTNER_API_SECRET 
 https://secure.homezada.com/api/v1/users/123
 ```
@@ -564,13 +562,7 @@ ID | The ID of the User to retrieve
 ```shell
 # Update a Specific User
 curl -i 
--H "Accept: application/vnntent-Type:application/vnd.api+json' 
---user PARTNER_ID:PARTNER_API_SECRET 
-https://secure.homezada.com/api/v1/users/123
-
-
-curl -i 
--H "Accept: application/vnd.api+json" -H 'Content-Type:application/vnd.api+json' 
+-H "Accept: application/vnd.api+json" -H 'Content-Type:application/vnd.api+json'
 --user PARTNER_ID:PARTNER_API_SECRET 
 -X PUT -d '{"data": {"type":"users", "attributes":{"name":"NewName", "email":"john.doe@example.test"}}}' https://secure.homezada.com/api/v1/users/123
 ```
