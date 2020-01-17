@@ -312,6 +312,14 @@
               </ul>
           </li>
           <li>
+            <a href="#changelog" class="toc-h1 toc-link" data-title="Changelog">Changelog</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#december-2019" class="toc-h2 toc-link" data-title="December 2019">December 2019</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
             <a href="#errors" class="toc-h1 toc-link" data-title="Errors">Errors</a>
           </li>
       </ul>
@@ -324,14 +332,14 @@
       <div class="dark-box"></div>
       <div class="content">
         <h1 id='homezada-partner-api'>HomeZada Partner API</h1>
-<p>Welcome to the HomeZada Partner Integration API documentation. You can use our API to access HomeZada API endpoints, which can get information on various Accounts and Properties in your partner store.</p>
+<p>Welcome to the HomeZada Partner Integration API documentation. You can use our API to access HomeZada API endpoints, which can list, get, update and create information on various Accounts and Properties in your Partner data.</p>
 
-<p>We have language bindings in Shell and Ruby. You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.</p>
+<p>We have language binding examples in Shell and Ruby, although any language can be used that supports a HTTP REST style and JSON payloads. You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.</p>
 
 <p>For questions about this API, or for help in setting up a new Partner account, please email us <a href="mailto:info@homezada.com">here</a>.</p>
 
 <aside class="success">
-Remember — all data via this API is scoped by the Properties or Accounts only associated with your partner id. No other data is accessible.
+Remember — all data via this API is limited scoped by the Properties or Accounts only associated with your Partner account. No other data is accessible.
 </aside>
 <h1 id='json-api'>JSON API</h1>
 <blockquote>
@@ -339,10 +347,10 @@ Remember — all data via this API is scoped by the Properties or Accounts only 
 </blockquote>
 <pre class="highlight shell tab-shell"><code><span class="c"># Simple example of reading a Partner owned property</span>
 curl -i 
--H <span class="s2">"Accept: application/vnntent-Type:application/vnd.api+json' 
+-H <span class="s2">"Accept: application/vnd.api+json"</span> -H <span class="s1">'Content-Type:application/vnd.api+json'</span>
 --user your-partner-id:your-partner-api-secret 
 https://secure.homezada.com/api/v1/properties/123456
-</span></code></pre><pre class="highlight ruby tab-ruby"><code>
+</code></pre><pre class="highlight ruby tab-ruby"><code>
   <span class="nb">require</span> <span class="s2">"net/http"</span>
   <span class="nb">require</span> <span class="s2">"uri"</span>
   <span class="nb">require</span> <span class="s2">"json"</span>
@@ -435,17 +443,17 @@ https://secure.homezada.com/api/v1/properties/123456
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>The HomeZada APIs are built around the concepts of the JSON API specification. The API supports creating, updating, deleting, and fetching resources and relationships via HTTPS verbs. More info on the JSON API specification can be found at <a href="https://jsonapi.org/">https://jsonapi.org/</a>.</p>
+<p>The HomeZada APIs are built around the concepts of the <strong>JSON API Specification</strong>. The API supports creating, updating, deleting, and fetching resources and relationships via HTTPS verbs. More detailed info on the JSON API specification can be found at <a href="https://jsonapi.org/">https://jsonapi.org/</a>.</p>
 <h1 id='authentication'>Authentication</h1>
 <blockquote>
 <p>To authorize, use this code:</p>
 </blockquote>
 <pre class="highlight shell tab-shell"><code><span class="c"># Simple example of reading a Partner owned property</span>
 curl -i 
--H <span class="s2">"Accept: application/vnntent-Type:application/vnd.api+json' 
+-H <span class="s2">"Accept: application/vnd.api+json"</span> -H <span class="s1">'Content-Type:application/vnd.api+json'</span>
 --user PARTNER_ID:PARTNER_API_SECRET 
 https://secure.homezada.com/api/v1/properties/123456
-</span></code></pre><pre class="highlight ruby tab-ruby"><code>  <span class="nb">require</span> <span class="s2">"net/http"</span>
+</code></pre><pre class="highlight ruby tab-ruby"><code>  <span class="nb">require</span> <span class="s2">"net/http"</span>
   <span class="nb">require</span> <span class="s2">"uri"</span>
   <span class="nb">require</span> <span class="s2">"json"</span>
 
@@ -475,7 +483,7 @@ You must replace <code>PARTNER_ID</code> with your Partner API key and <code>PAR
 
 <p><code>/api/v1</code></p>
 
-<p>Staging and API sandbox data can be accessed via</p>
+<p>Staging and API Sandbox data can be accessed via</p>
 
 <p><a href="https://staging.homezada.com/api/v1">https://staging.homezada.com/api/v1</a></p>
 
@@ -488,10 +496,10 @@ You must replace <code>PARTNER_ID</code> with your Partner API key and <code>PAR
 <p>The <code>&#39;sort=&#39;</code> parameter is used, using the full type parent.child attribute identifier.</p>
 <pre class="highlight shell tab-shell"><code><span class="c"># Sort by ascending user email</span>
 curl -i 
--H <span class="s2">"Accept: application/vnntent-Type:application/vnd.api+json' 
+-H <span class="s2">"Accept: application/vnd.api+json"</span> -H <span class="s1">'Content-Type:application/vnd.api+json'</span>
 --user PARTNER_ID:PARTNER_API_SECRET 
-https://secure.homezada.com/api/v1/users?sort=email
-</span></code></pre><pre class="highlight ruby tab-ruby"><code><span class="c1"># Sort by ascending user email</span>
+https://secure.homezada.com/api/v1/users?sort<span class="o">=</span>email
+</code></pre><pre class="highlight ruby tab-ruby"><code><span class="c1"># Sort by ascending user email</span>
 <span class="nb">require</span> <span class="s2">"net/http"</span>
 <span class="nb">require</span> <span class="s2">"uri"</span>
 <span class="nb">require</span> <span class="s2">"json"</span>
@@ -510,10 +518,10 @@ https://secure.homezada.com/api/v1/users?sort=email
 <span class="n">result</span> <span class="o">=</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="nf">body</span><span class="p">)</span> <span class="k">if</span> <span class="n">response</span><span class="p">.</span><span class="nf">code</span> <span class="o">==</span> <span class="s1">'200'</span>
 </code></pre><pre class="highlight shell tab-shell"><code><span class="c"># Sort by descending property name then country</span>
 curl -i 
--H <span class="s2">"Accept: application/vnntent-Type:application/vnd.api+json' 
+-H <span class="s2">"Accept: application/vnd.api+json"</span> -H <span class="s1">'Content-Type:application/vnd.api+json'</span>
 --user PARTNER_ID:PARTNER_API_SECRET 
-https://secure.homezada.com/api/v1/properties?sort=-name,country
-</span></code></pre><pre class="highlight ruby tab-ruby"><code><span class="c1"># Sort by descending property name then country</span>
+https://secure.homezada.com/api/v1/properties?sort<span class="o">=</span>-name,country
+</code></pre><pre class="highlight ruby tab-ruby"><code><span class="c1"># Sort by descending property name then country</span>
 <span class="nb">require</span> <span class="s2">"net/http"</span>
 <span class="nb">require</span> <span class="s2">"uri"</span>
 <span class="nb">require</span> <span class="s2">"json"</span>
@@ -534,10 +542,10 @@ https://secure.homezada.com/api/v1/properties?sort=-name,country
 <p>The <code>page[number]=</code> and <code>page[size]=</code> parameters can be used. The default page size (and maximium at this time) is 50.</p>
 <pre class="highlight shell tab-shell"><code><span class="c"># Paging example on users</span>
 curl -i 
--H <span class="s2">"Accept: application/vnntent-Type:application/vnd.api+json' 
+-H <span class="s2">"Accept: application/vnd.api+json"</span> -H <span class="s1">'Content-Type:application/vnd.api+json'</span> 
 --user PARTNER_ID:PARTNER_API_SECRET 
-https://secure.homezada.com/api/v1/users?page[number]=1&amp;page[size]=3
-</span></code></pre><pre class="highlight ruby tab-ruby"><code><span class="c1"># Sort by descending property name then country</span>
+https://secure.homezada.com/api/v1/users?page[number]<span class="o">=</span>1&amp;page[size]<span class="o">=</span>3
+</code></pre><pre class="highlight ruby tab-ruby"><code><span class="c1"># Sort by descending property name then country</span>
 <span class="nb">require</span> <span class="s2">"net/http"</span>
 <span class="nb">require</span> <span class="s2">"uri"</span>
 <span class="nb">require</span> <span class="s2">"json"</span>
@@ -656,10 +664,10 @@ A new User account is created with a random strong password. Please use the Pass
 <span class="n">result</span> <span class="o">=</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="nf">body</span><span class="p">)</span> <span class="k">if</span> <span class="n">response</span><span class="p">.</span><span class="nf">code</span> <span class="o">==</span> <span class="s1">'200'</span>
 </code></pre><pre class="highlight shell tab-shell"><code><span class="c"># Get List of Users</span>
 curl -i 
--H <span class="s2">"Accept: application/vnntent-Type:application/vnd.api+json' 
+-H <span class="s2">"Accept: application/vnd.api+json"</span> -H <span class="s1">'Content-Type:application/vnd.api+json'</span>
 --user PARTNER_ID:PARTNER_API_SECRET 
 https://secure.homezada.com/api/v1/users
-</span></code></pre>
+</code></pre>
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
 </blockquote>
@@ -764,10 +772,10 @@ Remember — only User accounts associated with your Partner account will be ret
 <span class="n">result</span> <span class="o">=</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="nf">body</span><span class="p">)</span> <span class="k">if</span> <span class="n">response</span><span class="p">.</span><span class="nf">code</span> <span class="o">==</span> <span class="s1">'200'</span>
 </code></pre><pre class="highlight shell tab-shell"><code><span class="c"># Get a Specific User</span>
 curl -i 
--H <span class="s2">"Accept: application/vnntent-Type:application/vnd.api+json' 
+-H <span class="s2">"Accept: application/vnd.api+json"</span> -H <span class="s1">'Content-Type:application/vnd.api+json'</span>
 --user PARTNER_ID:PARTNER_API_SECRET 
 https://secure.homezada.com/api/v1/users/123
-</span></code></pre>
+</code></pre>
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
 </blockquote>
@@ -810,16 +818,10 @@ https://secure.homezada.com/api/v1/users/123
 </tbody></table>
 <h2 id='update-a-specific-user'>Update a Specific User</h2><pre class="highlight shell tab-shell"><code><span class="c"># Update a Specific User</span>
 curl -i 
--H <span class="s2">"Accept: application/vnntent-Type:application/vnd.api+json' 
+-H <span class="s2">"Accept: application/vnd.api+json"</span> -H <span class="s1">'Content-Type:application/vnd.api+json'</span>
 --user PARTNER_ID:PARTNER_API_SECRET 
-https://secure.homezada.com/api/v1/users/123
-
-
-curl -i 
--H "</span>Accept: application/vnd.api+json<span class="s2">" -H 'Content-Type:application/vnd.api+json' 
---user PARTNER_ID:PARTNER_API_SECRET 
--X PUT -d '{"</span>data<span class="s2">": {"</span><span class="nb">type</span><span class="s2">":"</span>users<span class="s2">", "</span>attributes<span class="s2">":{"</span>name<span class="s2">":"</span>NewName<span class="s2">", "</span>email<span class="s2">":"</span>john.doe@example.test<span class="s2">"}}}' https://secure.homezada.com/api/v1/users/123
-</span></code></pre><pre class="highlight ruby tab-ruby"><code><span class="c1"># TDB please see Shell Example</span>
+-X PUT -d <span class="s1">'{"data": {"type":"users", "attributes":{"name":"NewName", "email":"john.doe@example.test"}}}'</span> https://secure.homezada.com/api/v1/users/123
+</code></pre><pre class="highlight ruby tab-ruby"><code><span class="c1"># TDB please see Shell Example</span>
 </code></pre>
 <p>This endpoint updates a specific User by unique ID.</p>
 <h3 id='http-request-3'>HTTP Request</h3>
@@ -885,7 +887,9 @@ An Account destroy action will disable the account. The Partner account security
 <p>A Property is a physical property that belongs to either a User or a Professional. When created via this API it will be associated with the Partner id.</p>
 <h2 id='get-all-photos'>Get All Photos</h2><h1 id='documents'>Documents</h1>
 <p>A Property is a physical property that belongs to either a User or a Professional. When created via this API it will be associated with the Partner id.</p>
-<h2 id='get-all-documents'>Get All Documents</h2><h1 id='errors'>Errors</h1>
+<h2 id='get-all-documents'>Get All Documents</h2><h1 id='changelog'>Changelog</h1><h2 id='december-2019'>December 2019</h2>
+<p>Initial version, and breaking changes will be listed in this section.</p>
+<h1 id='errors'>Errors</h1>
 <p>The HomeZada Partner API uses the following error codes at the HTTP request level:</p>
 
 <table><thead>
