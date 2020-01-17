@@ -199,14 +199,14 @@ The JSON API spec provides a set of common query parameters to allow you to easi
 The <code>'sort='</code> parameter is used, using the full type parent.child attribute identifier.
 
 ```shell
-# Sort by ascending email
+# Sort by ascending user email
 curl -i 
 -H "Accept: application/vnntent-Type:application/vnd.api+json' 
 --user PARTNER_ID:PARTNER_API_SECRET 
 https://secure.homezada.com/api/v1/users?sort=email
 ```
 ```ruby
-# Sort by ascending created data timestamp
+# Sort by ascending user email
 require "net/http"
 require "uri"
 require "json"
@@ -364,181 +364,268 @@ result = JSON.parse(response.body) if response.code == '200'
 
 # Users
 
-A User is a regular HomeZada consumer account. When created via this API it will be associated with the Partner id automatically.
+A User is a regular HomeZada consumer account. When created via this API it will be associated with the Partner account of the caller automatically.
+
+A Professional account can be used as a regular user and will also be returned in the List Users. To get just the list of Professionals please use the specific Professonial endpoint <code>/professionals</code>.
 
 <aside class="notice">
-A new account is created with a random strong password. Please use the Password Reset with the associated email address on the account.
+A new User account is created with a random strong password. Please use the Password Reset with the associated email address on the account.
 </aside>
 
-## Get All Users
+## Get List of Users
 
 ```ruby
-require 'kittn'
+# Get List of Users
+require "net/http"
+require "uri"
+require "json"
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
-```
+HOMEZADA_PARTNER_API_URL = "https://secure.homezada.com/api/v1/users"
+uri = URI.parse(HOMEZADA_PARTNER_API_URL)
 
-```python
-import kittn
+http = Net::HTTP.new(uri.host, uri.port)
+http.use_ssl = true if uri.scheme == 'https'
+request = Net::HTTP::Get.new(uri.request_uri)
+request.basic_auth(PARTNER_ID, PARTNER_API_SECRET)
 
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get()
+response = http.request(request)
+result = JSON.parse(response.body) if response.code == '200'
 ```
 
 ```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let kittens = api.kittens.get();
+# Get List of Users
+curl -i 
+-H "Accept: application/vnntent-Type:application/vnd.api+json' 
+--user PARTNER_ID:PARTNER_API_SECRET 
+https://secure.homezada.com/api/v1/users
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
+{
+   "data":[
+      {
+         "id":"1311",
+         "type":"users",
+         "links":{
+            "self":"https://secure.homezada.com/api/v1/users/1311"
+         },
+         "attributes":{
+            "name":"David",
+            "email":"ding+sdkexample1@homezada.com"
+         },
+         "meta":{
+            "copyright":"Copyright 2020 - HomeZada Inc.",
+            "last_updated_at":"2020-01-08 17:11:03 UTC",
+            "created_at":"2010-11-23 00:57:15 UTC"
+         }
+      },
+      {
+         "id":"60122",
+         "type":"professionals",
+         "links":{
+            "self":"https://secure.homezada.com/api/v1/professionals/60122"
+         },
+         "attributes":{
+            "name":"David Professional",
+            "first-name":"David",
+            "last-name":"Professional",
+            "email":"ding+sdkexample2@homezada.com",
+            "company-name":"UniqueName",
+            "phone":"+1 604 307 1131",
+            "facebook":"https://facebook.com/1234",
+            "twitter":"https://twitter.com/_david_ing",
+            "linkedin":"",
+            "contact-email":"123@gmail.com",
+            "website":"www.test.com",
+            "company-market":"Real Estate",
+            "industry-license-info":"CalBRE #01039089",
+            "company-logo":"https://homezada-dev-env.s3.amazonaws.com/uploads/professional/company_logo/60/clean_all_of_your_small_appliances.jpg",
+            "headshot":"https://homezada-dev-env.s3.amazonaws.com/uploads/professional/headshot/60/3.jpg"
+         },
+         "meta":{
+            "copyright":"Copyright 2020 - HomeZada Inc.",
+            "last_updated_at":"2019-10-15 02:21:41 UTC",
+            "created_at":"2012-10-26 21:48:55 UTC"
+         }
+      },
+      {
+         "id":"222",
+         "type":"users",
+         "links":{
+            "self":"https://secure.homezada.com/api/v1/users/222"
+         },
+         "attributes":{
+            "name":"buy gift",
+            "email":"ding+sdkexample3@homezada.com"
+         },
+         "meta":{
+            "copyright":"Copyright 2020 - HomeZada Inc.",
+            "last_updated_at":"2013-12-10 22:56:33 UTC",
+            "created_at":"2013-12-10 22:54:24 UTC"
+         }
+      },
+   ],
+   "meta":{
+      "record-count":3,
+      "page-count":1
+   },
+   "links":{
+      "first":"https://secure.homezada.com/api/v1/users?page%5Bnumber%5D=1&page%5Bsize%5D=50",
+      "last":"https://secure.homezada.com/api/v1/users?page%5Bnumber%5D=1&page%5Bsize%5D=50"
+   }
+}
 ```
 
-This endpoint retrieves all kittens.
+This endpoint retrieves all users.
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`GET https://secure.homezada.com/api/v1/users`
 
-### Query Parameters
+### Data Fields
 
-Parameter | Default | Description
---------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+None
 
 <aside class="success">
-Remember — a happy kitten is an authenticated kitten!
+Remember — only User accounts associated with your Partner account will be returned.
 </aside>
 
 ## Get a Specific User
 
 ```ruby
-require 'kittn'
+# Get a Specific User
+require "net/http"
+require "uri"
+require "json"
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
-```
+# Note: Id '123' appended to URL
+HOMEZADA_PARTNER_API_URL = "https://secure.homezada.com/api/v1/users/123"
+uri = URI.parse(HOMEZADA_PARTNER_API_URL)
 
-```python
-import kittn
+http = Net::HTTP.new(uri.host, uri.port)
+http.use_ssl = true if uri.scheme == 'https'
+request = Net::HTTP::Get.new(uri.request_uri)
+request.basic_auth(PARTNER_ID, PARTNER_API_SECRET)
 
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get(2)
+response = http.request(request)
+result = JSON.parse(response.body) if response.code == '200'
 ```
 
 ```shell
-curl "http://example.com/api/kittens/2"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.get(2);
+# Get a Specific User
+curl -i 
+-H "Accept: application/vnntent-Type:application/vnd.api+json' 
+--user PARTNER_ID:PARTNER_API_SECRET 
+https://secure.homezada.com/api/v1/users/123
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
 {
-  "id": 2,
-  "name": "Max",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
+  data:
+  {
+    id: "123",
+    type: "users",
+    links:
+    {
+      self: "http://localhost:3000/api/v1/users/123"
+    },
+    attributes: 
+    {
+      name: "David",
+      email: "example@homezada.com"
+    },
+    meta: {
+      copyright: "Copyright 2020 - HomeZada Inc.",
+      last_updated_at: "2020-01-08 17:11:03 UTC",
+      created_at: "2010-11-23 00:57:15 UTC"
+    }
+  }
 }
 ```
 
-This endpoint retrieves a specific kitten.
-
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
+This endpoint retrieves a specific User by default by unique ID.
 
 ### HTTP Request
 
-`GET http://example.com/kittens/<ID>`
+`GET https://secure.homezada.com/api/v1/users/<ID>`
 
 ### URL Parameters
 
 Parameter | Description
 --------- | -----------
-ID | The ID of the kitten to retrieve
+ID | The ID of the User to retrieve
+
+## Update a Specific User
+
+```shell
+# Update a Specific User
+curl -i 
+-H "Accept: application/vnntent-Type:application/vnd.api+json' 
+--user PARTNER_ID:PARTNER_API_SECRET 
+https://secure.homezada.com/api/v1/users/123
+
+
+curl -i 
+-H "Accept: application/vnd.api+json" -H 'Content-Type:application/vnd.api+json' 
+--user PARTNER_ID:PARTNER_API_SECRET 
+-X PUT -d '{"data": {"type":"users", "attributes":{"name":"NewName", "email":"john.doe@example.test"}}}' https://secure.homezada.com/api/v1/users/123
+```
+
+```ruby
+# TDB please see Shell Example
+```
+
+This endpoint updates a specific User by unique ID.
+
+### HTTP Request
+
+`PUT https://secure.homezada.com/api/v1/users/<ID>`
+
+### URL Parameters
+
+Parameter | Description
+--------- | -----------
+ID | The ID of the User to retrieve
+
+### Data Fields
+
+Parameter | Description
+--------- | -----------
+name | The name of the User to update. Required field.
+email | The email of the User to update. Required field.
 
 ## Delete a Specific User
 
 ```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.delete(2)
+# TDB please see Shell Example
 ```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.delete(2)
-```
-
 ```shell
-curl "http://example.com/api/kittens/2"
-  -X DELETE
-  -H "Authorization: meowmeowmeow"
+curl -i 
+-H "Accept: application/vnd.api+json" -H 'Content-Type:application/vnd.api+json' 
+--user PARTNER_ID:PARTNER_API_SECRET 
+-X DELETE https://secure.homezada.com/api/v1/users/123
 ```
 
-```javascript
-const kittn = require('kittn');
+This endpoint deletes a specific user.
 
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.delete(2);
-```
-
-> The above command returns JSON structured like this:
-
-```json
-{
-  "id": 2,
-  "deleted" : ":("
-}
-```
-
-This endpoint deletes a specific kitten.
+<aside class="warning">
+An Account destroy action will disable the account. The Partner account security role may have to be changed to allow this action. By default this endpoint is not enabled.
+</aside>
 
 ### HTTP Request
 
-`DELETE http://example.com/kittens/<ID>`
+`DELETE https://secure.homezada.com/api/v1/users/<ID>`
 
 ### URL Parameters
 
 Parameter | Description
 --------- | -----------
-ID | The ID of the kitten to delete
+ID | The ID of the User account to delete
+
 
 # Professionals
 
@@ -546,12 +633,24 @@ A Professional is a business oriented HomeZada account. When created via this AP
 
 ## Get All Professionals
 
+## Get a Specific Professional
+
+## Update a Specific Professional
+
+## Delete a Specific Professional
+
 
 # Properties
 
 A Property is a physical property that belongs to either a User or a Professional. When created via this API it will be associated with the Partner id.
 
 ## Get All Properties
+
+## Get a Specific Property
+
+## Update a Specific Property
+
+## Delete a Specific Property
 
 # Photos
 
