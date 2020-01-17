@@ -177,7 +177,7 @@ You must replace <code>PARTNER_ID</code> with your Partner API key and <code>PAR
 
 # Versioning
 
-The API is versioned and can be access from the following root address per version:
+The API is versioned and can be accessed from the following root URL per version:
 
 `/api/v1`
 
@@ -192,6 +192,8 @@ The production data can be accessed via
 # Common Parameters
 
 The JSON API spec provides a set of common query parameters to allow you to easily sort, filter, nest and page data. Examples are provided on the right.
+
+Additional filtering and parent/child data common parameters can be added on request as the API evolves.
 
 ## Sorting
 The <code>'sort='</code> parameter is used, using the full type parent.child attribute identifier.
@@ -360,7 +362,7 @@ result = JSON.parse(response.body) if response.code == '200'
 }
 ````
 
-# Users
+# Partner Data - Users
 
 A User is a regular HomeZada consumer account. When created via this API it will be associated with the Partner account of the caller automatically.
 
@@ -619,7 +621,7 @@ Parameter | Description
 ID | The ID of the User account to delete
 
 
-# Professionals
+# Partner Data - Professionals
 
 A Professional is a business oriented HomeZada account. When created via this API it will be associated with the Partner id.
 
@@ -632,7 +634,7 @@ A Professional is a business oriented HomeZada account. When created via this AP
 ## Delete a Specific Professional
 
 
-# Properties
+# Partner Data - Properties
 
 A Property is a physical property that belongs to either a User or a Professional. When created via this API it will be associated with the Partner id.
 
@@ -644,13 +646,13 @@ A Property is a physical property that belongs to either a User or a Professiona
 
 ## Delete a Specific Property
 
-# Photos
+# Partner Data - Photos
 
 A Property is a physical property that belongs to either a User or a Professional. When created via this API it will be associated with the Partner id.
 
 ## Get All Photos
 
-# Documents
+# Partner Data - Documents
 
 A Property is a physical property that belongs to either a User or a Professional. When created via this API it will be associated with the Partner id.
 
