@@ -245,7 +245,7 @@
               </ul>
           </li>
           <li>
-            <a href="#users" class="toc-h1 toc-link" data-title="Users">Users</a>
+            <a href="#partner-data-users" class="toc-h1 toc-link" data-title="Partner Data - Users">Partner Data - Users</a>
               <ul class="toc-list-h2">
                   <li>
                     <a href="#get-list-of-users" class="toc-h2 toc-link" data-title="Get List of Users">Get List of Users</a>
@@ -262,7 +262,7 @@
               </ul>
           </li>
           <li>
-            <a href="#professionals" class="toc-h1 toc-link" data-title="Professionals">Professionals</a>
+            <a href="#partner-data-professionals" class="toc-h1 toc-link" data-title="Partner Data - Professionals">Partner Data - Professionals</a>
               <ul class="toc-list-h2">
                   <li>
                     <a href="#get-all-professionals" class="toc-h2 toc-link" data-title="Get All Professionals">Get All Professionals</a>
@@ -279,7 +279,7 @@
               </ul>
           </li>
           <li>
-            <a href="#properties" class="toc-h1 toc-link" data-title="Properties">Properties</a>
+            <a href="#partner-data-properties" class="toc-h1 toc-link" data-title="Partner Data - Properties">Partner Data - Properties</a>
               <ul class="toc-list-h2">
                   <li>
                     <a href="#get-all-properties" class="toc-h2 toc-link" data-title="Get All Properties">Get All Properties</a>
@@ -296,7 +296,7 @@
               </ul>
           </li>
           <li>
-            <a href="#photos" class="toc-h1 toc-link" data-title="Photos">Photos</a>
+            <a href="#partner-data-photos" class="toc-h1 toc-link" data-title="Partner Data - Photos">Partner Data - Photos</a>
               <ul class="toc-list-h2">
                   <li>
                     <a href="#get-all-photos" class="toc-h2 toc-link" data-title="Get All Photos">Get All Photos</a>
@@ -304,7 +304,7 @@
               </ul>
           </li>
           <li>
-            <a href="#documents" class="toc-h1 toc-link" data-title="Documents">Documents</a>
+            <a href="#partner-data-documents" class="toc-h1 toc-link" data-title="Partner Data - Documents">Partner Data - Documents</a>
               <ul class="toc-list-h2">
                   <li>
                     <a href="#get-all-documents" class="toc-h2 toc-link" data-title="Get All Documents">Get All Documents</a>
@@ -479,7 +479,7 @@ https://secure.homezada.com/api/v1/properties/123456
 You must replace <code>PARTNER_ID</code> with your Partner API key and <code>PARTNER_API_SECRET</code> with your Partner API secret in the examples provided.
 </aside>
 <h1 id='versioning'>Versioning</h1>
-<p>The API is versioned and can be access from the following root address per version:</p>
+<p>The API is versioned and can be accessed from the following root URL per version:</p>
 
 <p><code>/api/v1</code></p>
 
@@ -492,6 +492,8 @@ You must replace <code>PARTNER_ID</code> with your Partner API key and <code>PAR
 <p><a href="https://secure.homezada.com/api/v1">https://secure.homezada.com/api/v1</a></p>
 <h1 id='common-parameters'>Common Parameters</h1>
 <p>The JSON API spec provides a set of common query parameters to allow you to easily sort, filter, nest and page data. Examples are provided on the right.</p>
+
+<p>Additional filtering and parent/child data common parameters can be added on request as the API evolves.</p>
 <h2 id='sorting'>Sorting</h2>
 <p>The <code>&#39;sort=&#39;</code> parameter is used, using the full type parent.child attribute identifier.</p>
 <pre class="highlight shell tab-shell"><code><span class="c"># Sort by ascending user email</span>
@@ -639,7 +641,7 @@ https://secure.homezada.com/api/v1/users?page[number]<span class="o">=</span>1&a
       </span><span class="s2">"last"</span><span class="p">:</span><span class="s2">"http://localhost:3000/api/v1/users?page%5Bnumber%5D=1&amp;page%5Bsize%5D=50"</span><span class="w">
    </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre><h1 id='users'>Users</h1>
+</span></code></pre><h1 id='partner-data-users'>Partner Data - Users</h1>
 <p>A User is a regular HomeZada consumer account. When created via this API it will be associated with the Partner account of the caller automatically.</p>
 
 <p>A Professional account can be used as a regular user and will also be returned in the List Users. To get just the list of Professionals please use the specific Professonial endpoint <code>/professionals</code>.</p>
@@ -879,13 +881,13 @@ An Account destroy action will disable the account. The Partner account security
 <td>The ID of the User account to delete</td>
 </tr>
 </tbody></table>
-<h1 id='professionals'>Professionals</h1>
+<h1 id='partner-data-professionals'>Partner Data - Professionals</h1>
 <p>A Professional is a business oriented HomeZada account. When created via this API it will be associated with the Partner id.</p>
-<h2 id='get-all-professionals'>Get All Professionals</h2><h2 id='get-a-specific-professional'>Get a Specific Professional</h2><h2 id='update-a-specific-professional'>Update a Specific Professional</h2><h2 id='delete-a-specific-professional'>Delete a Specific Professional</h2><h1 id='properties'>Properties</h1>
+<h2 id='get-all-professionals'>Get All Professionals</h2><h2 id='get-a-specific-professional'>Get a Specific Professional</h2><h2 id='update-a-specific-professional'>Update a Specific Professional</h2><h2 id='delete-a-specific-professional'>Delete a Specific Professional</h2><h1 id='partner-data-properties'>Partner Data - Properties</h1>
 <p>A Property is a physical property that belongs to either a User or a Professional. When created via this API it will be associated with the Partner id.</p>
-<h2 id='get-all-properties'>Get All Properties</h2><h2 id='get-a-specific-property'>Get a Specific Property</h2><h2 id='update-a-specific-property'>Update a Specific Property</h2><h2 id='delete-a-specific-property'>Delete a Specific Property</h2><h1 id='photos'>Photos</h1>
+<h2 id='get-all-properties'>Get All Properties</h2><h2 id='get-a-specific-property'>Get a Specific Property</h2><h2 id='update-a-specific-property'>Update a Specific Property</h2><h2 id='delete-a-specific-property'>Delete a Specific Property</h2><h1 id='partner-data-photos'>Partner Data - Photos</h1>
 <p>A Property is a physical property that belongs to either a User or a Professional. When created via this API it will be associated with the Partner id.</p>
-<h2 id='get-all-photos'>Get All Photos</h2><h1 id='documents'>Documents</h1>
+<h2 id='get-all-photos'>Get All Photos</h2><h1 id='partner-data-documents'>Partner Data - Documents</h1>
 <p>A Property is a physical property that belongs to either a User or a Professional. When created via this API it will be associated with the Partner id.</p>
 <h2 id='get-all-documents'>Get All Documents</h2><h1 id='changelog'>Changelog</h1><h2 id='december-2019'>December 2019</h2>
 <p>Initial version, and breaking changes will be listed in this section.</p>
