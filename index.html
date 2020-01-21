@@ -242,6 +242,9 @@
                   <li>
                     <a href="#pagination" class="toc-h2 toc-link" data-title="Pagination">Pagination</a>
                   </li>
+                  <li>
+                    <a href="#filtering" class="toc-h2 toc-link" data-title="Filtering">Filtering</a>
+                  </li>
               </ul>
           </li>
           <li>
@@ -494,9 +497,7 @@ You must replace <code>PARTNER_ID</code> with your Partner API key and <code>PAR
 <p>The JSON API spec provides a set of common query parameters to allow you to easily sort, filter, nest and page data. Examples are provided on the right.</p>
 
 <p>Additional filtering and parent/child data common parameters can be added on request as the API evolves.</p>
-<h2 id='sorting'>Sorting</h2>
-<p>The <code>&#39;sort=&#39;</code> parameter is used, using the full type parent.child attribute identifier.</p>
-<pre class="highlight shell tab-shell"><code><span class="c"># Sort by ascending user email</span>
+<h2 id='sorting'>Sorting</h2><pre class="highlight shell tab-shell"><code><span class="c"># Sort by ascending user email</span>
 curl -i 
 -H <span class="s2">"Accept: application/vnd.api+json"</span> -H <span class="s1">'Content-Type:application/vnd.api+json'</span>
 --user PARTNER_ID:PARTNER_API_SECRET 
@@ -540,19 +541,19 @@ https://secure.homezada.com/api/v1/properties?sort<span class="o">=</span>-name,
 
 <span class="n">response</span> <span class="o">=</span> <span class="n">http</span><span class="p">.</span><span class="nf">request</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
 <span class="n">result</span> <span class="o">=</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="nf">body</span><span class="p">)</span> <span class="k">if</span> <span class="n">response</span><span class="p">.</span><span class="nf">code</span> <span class="o">==</span> <span class="s1">'200'</span>
-</code></pre><h2 id='pagination'>Pagination</h2>
-<p>The <code>page[number]=</code> and <code>page[size]=</code> parameters can be used. The default page size (and maximium at this time) is 50.</p>
-<pre class="highlight shell tab-shell"><code><span class="c"># Paging example on users</span>
+</code></pre>
+<p>The <code>&#39;sort=&#39;</code> parameter is used, using the full type parent.child attribute identifier.</p>
+<h2 id='pagination'>Pagination</h2><pre class="highlight shell tab-shell"><code><span class="c"># Paging example on users</span>
 curl -i 
 -H <span class="s2">"Accept: application/vnd.api+json"</span> -H <span class="s1">'Content-Type:application/vnd.api+json'</span> 
 --user PARTNER_ID:PARTNER_API_SECRET 
 https://secure.homezada.com/api/v1/users?page[number]<span class="o">=</span>1&amp;page[size]<span class="o">=</span>3
-</code></pre><pre class="highlight ruby tab-ruby"><code><span class="c1"># Sort by descending property name then country</span>
+</code></pre><pre class="highlight ruby tab-ruby"><code><span class="c1"># Paging example on users</span>
 <span class="nb">require</span> <span class="s2">"net/http"</span>
 <span class="nb">require</span> <span class="s2">"uri"</span>
 <span class="nb">require</span> <span class="s2">"json"</span>
 
-<span class="no">HOMEZADA_PARTNER_API_URL</span> <span class="o">=</span> <span class="s2">"https://secure.homezada.com/api/v1/properties/123456"</span>
+<span class="no">HOMEZADA_PARTNER_API_URL</span> <span class="o">=</span> <span class="s2">"https://secure.homezada.com/api/v1/users"</span>
 <span class="n">uri</span> <span class="o">=</span> <span class="no">URI</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="no">HOMEZADA_PARTNER_API_URL</span><span class="p">)</span>
 <span class="n">params</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">"page[number]"</span><span class="p">:</span> <span class="s2">"1"</span><span class="p">,</span> <span class="s2">"page[size]"</span><span class="p">:</span> <span class="s2">"3"</span> <span class="p">}</span>
 <span class="n">uri</span><span class="p">.</span><span class="nf">query</span> <span class="o">=</span> <span class="no">URI</span><span class="p">.</span><span class="nf">encode_www_form</span><span class="p">(</span> <span class="n">params</span> <span class="p">)</span>
@@ -641,7 +642,33 @@ https://secure.homezada.com/api/v1/users?page[number]<span class="o">=</span>1&a
       </span><span class="s2">"last"</span><span class="p">:</span><span class="s2">"http://localhost:3000/api/v1/users?page%5Bnumber%5D=1&amp;page%5Bsize%5D=50"</span><span class="w">
    </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre><h1 id='partner-data-users'>Partner Data - Users</h1>
+</span></code></pre>
+<p>The <code>page[number]=</code> and <code>page[size]=</code> parameters can be used. The default page size (and maximium at this time) is 50.</p>
+<h2 id='filtering'>Filtering</h2><pre class="highlight shell tab-shell"><code><span class="c"># Property filter by Address State</span>
+curl -i 
+-H <span class="s2">"Accept: application/vnd.api+json"</span> -H <span class="s1">'Content-Type:application/vnd.api+json'</span>
+--user PARTNER_ID:PARTNER_API_SECRET 
+https://secure.homezada.com/api/v1/users/123/properties?filter[state]<span class="o">=</span>DC,NV
+</code></pre><pre class="highlight ruby tab-ruby"><code><span class="c1"># Property filter by Address State</span>
+<span class="nb">require</span> <span class="s2">"net/http"</span>
+<span class="nb">require</span> <span class="s2">"uri"</span>
+<span class="nb">require</span> <span class="s2">"json"</span>
+
+<span class="no">HOMEZADA_PARTNER_API_URL</span> <span class="o">=</span> <span class="s2">"https://secure.homezada.com/api/v1/users/123/properties"</span>
+<span class="n">uri</span> <span class="o">=</span> <span class="no">URI</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="no">HOMEZADA_PARTNER_API_URL</span><span class="p">)</span>
+<span class="n">params</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">"filter[state]"</span><span class="p">:</span> <span class="s2">"DC,NV"</span> <span class="p">}</span>
+<span class="n">uri</span><span class="p">.</span><span class="nf">query</span> <span class="o">=</span> <span class="no">URI</span><span class="p">.</span><span class="nf">encode_www_form</span><span class="p">(</span> <span class="n">params</span> <span class="p">)</span>
+
+<span class="n">http</span> <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">uri</span><span class="p">.</span><span class="nf">host</span><span class="p">,</span> <span class="n">uri</span><span class="p">.</span><span class="nf">port</span><span class="p">)</span>
+<span class="n">http</span><span class="p">.</span><span class="nf">use_ssl</span> <span class="o">=</span> <span class="kp">true</span> <span class="k">if</span> <span class="n">uri</span><span class="p">.</span><span class="nf">scheme</span> <span class="o">==</span> <span class="s1">'https'</span>
+<span class="n">request</span> <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="o">::</span><span class="no">Get</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">uri</span><span class="p">.</span><span class="nf">request_uri</span><span class="p">)</span>
+<span class="n">request</span><span class="p">.</span><span class="nf">basic_auth</span><span class="p">(</span><span class="no">PARTNER_ID</span><span class="p">,</span> <span class="no">PARTNER_API_SECRET</span><span class="p">)</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">http</span><span class="p">.</span><span class="nf">request</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="nf">body</span><span class="p">)</span> <span class="k">if</span> <span class="n">response</span><span class="p">.</span><span class="nf">code</span> <span class="o">==</span> <span class="s1">'200'</span>
+</code></pre>
+<p>The <code>&#39;filter[field]=search-term1,search-term2&#39;</code> parameter format is used to select a subset of data from a list. Additional filters can be added on request and are noted on each list call.</p>
+<h1 id='partner-data-users'>Partner Data - Users</h1>
 <p>A User is a regular HomeZada consumer account. When created via this API it will be associated with the Partner account of the caller automatically.</p>
 
 <p>A Professional account can be used as a regular user and will also be returned in the List Users. To get just the list of Professionals please use the specific Professonial endpoint <code>/professionals</code>.</p>
