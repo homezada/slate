@@ -196,8 +196,6 @@ The JSON API spec provides a set of common query parameters to allow you to easi
 Additional filtering and parent/child data common parameters can be added on request as the API evolves.
 
 ## Sorting
-The <code>'sort='</code> parameter is used, using the full type parent.child attribute identifier.
-
 ```shell
 # Sort by ascending user email
 curl -i 
@@ -252,9 +250,10 @@ request.basic_auth(PARTNER_ID, PARTNER_API_SECRET)
 response = http.request(request)
 result = JSON.parse(response.body) if response.code == '200'
 ````
-## Pagination
+The <code>'sort='</code> parameter is used, using the full type parent.child attribute identifier.
 
-The <code>page[number]=</code> and <code>page[size]=</code> parameters can be used. The default page size (and maximium at this time) is 50.
+
+## Pagination
 
 ```shell
 # Paging example on users
@@ -265,12 +264,12 @@ https://secure.homezada.com/api/v1/users?page[number]=1&page[size]=3
 ````
 
 ```ruby
-# Sort by descending property name then country
+# Paging example on users
 require "net/http"
 require "uri"
 require "json"
 
-HOMEZADA_PARTNER_API_URL = "https://secure.homezada.com/api/v1/properties/123456"
+HOMEZADA_PARTNER_API_URL = "https://secure.homezada.com/api/v1/users"
 uri = URI.parse(HOMEZADA_PARTNER_API_URL)
 params = { "page[number]": "1", "page[size]": "3" }
 uri.query = URI.encode_www_form( params )
@@ -361,6 +360,38 @@ result = JSON.parse(response.body) if response.code == '200'
    }
 }
 ````
+
+The <code>page[number]=</code> and <code>page[size]=</code> parameters can be used. The default page size (and maximium at this time) is 50.
+
+## Filtering
+
+```shell
+# Property filter by Address State
+curl -i 
+-H "Accept: application/vnd.api+json" -H 'Content-Type:application/vnd.api+json'
+--user PARTNER_ID:PARTNER_API_SECRET 
+https://secure.homezada.com/api/v1/users/123/properties?filter[state]=DC,NV
+```
+```ruby
+# Property filter by Address State
+require "net/http"
+require "uri"
+require "json"
+
+HOMEZADA_PARTNER_API_URL = "https://secure.homezada.com/api/v1/users/123/properties"
+uri = URI.parse(HOMEZADA_PARTNER_API_URL)
+params = { "filter[state]": "DC,NV" }
+uri.query = URI.encode_www_form( params )
+
+http = Net::HTTP.new(uri.host, uri.port)
+http.use_ssl = true if uri.scheme == 'https'
+request = Net::HTTP::Get.new(uri.request_uri)
+request.basic_auth(PARTNER_ID, PARTNER_API_SECRET)
+
+response = http.request(request)
+result = JSON.parse(response.body) if response.code == '200'
+````
+The <code>'filter[field]=search-term1,search-term2'</code> parameter format is used to select a subset of data from a list. Additional filters can be added on request and are noted on each list call.
 
 # Partner Data - Users
 
@@ -657,3 +688,11 @@ A Property is a physical property that belongs to either a User or a Professiona
 A Property is a physical property that belongs to either a User or a Professional. When created via this API it will be associated with the Partner id.
 
 ## Get All Documents
+
+
+
+
+
+
+
+
