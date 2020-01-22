@@ -260,6 +260,9 @@
                     <a href="#update-a-specific-user" class="toc-h2 toc-link" data-title="Update a Specific User">Update a Specific User</a>
                   </li>
                   <li>
+                    <a href="#create-a-new-user" class="toc-h2 toc-link" data-title="Create a New User">Create a New User</a>
+                  </li>
+                  <li>
                     <a href="#delete-a-specific-user" class="toc-h2 toc-link" data-title="Delete a Specific User">Delete a Specific User</a>
                   </li>
               </ul>
@@ -275,6 +278,9 @@
                   </li>
                   <li>
                     <a href="#update-a-specific-professional" class="toc-h2 toc-link" data-title="Update a Specific Professional">Update a Specific Professional</a>
+                  </li>
+                  <li>
+                    <a href="#create-a-new-professional" class="toc-h2 toc-link" data-title="Create a New Professional">Create a New Professional</a>
                   </li>
                   <li>
                     <a href="#delete-a-specific-professional" class="toc-h2 toc-link" data-title="Delete a Specific Professional">Delete a Specific Professional</a>
@@ -294,6 +300,9 @@
                     <a href="#update-a-specific-property" class="toc-h2 toc-link" data-title="Update a Specific Property">Update a Specific Property</a>
                   </li>
                   <li>
+                    <a href="#create-a-new-property" class="toc-h2 toc-link" data-title="Create a New Property">Create a New Property</a>
+                  </li>
+                  <li>
                     <a href="#delete-a-specific-property" class="toc-h2 toc-link" data-title="Delete a Specific Property">Delete a Specific Property</a>
                   </li>
               </ul>
@@ -304,6 +313,18 @@
                   <li>
                     <a href="#get-all-photos" class="toc-h2 toc-link" data-title="Get All Photos">Get All Photos</a>
                   </li>
+                  <li>
+                    <a href="#get-a-specific-photo" class="toc-h2 toc-link" data-title="Get a Specific Photo">Get a Specific Photo</a>
+                  </li>
+                  <li>
+                    <a href="#update-a-specific-photo-upload" class="toc-h2 toc-link" data-title="Update a Specific Photo (Upload)">Update a Specific Photo (Upload)</a>
+                  </li>
+                  <li>
+                    <a href="#create-a-new-photo" class="toc-h2 toc-link" data-title="Create a New Photo">Create a New Photo</a>
+                  </li>
+                  <li>
+                    <a href="#delete-a-specific-photo" class="toc-h2 toc-link" data-title="Delete a Specific Photo">Delete a Specific Photo</a>
+                  </li>
               </ul>
           </li>
           <li>
@@ -311,6 +332,18 @@
               <ul class="toc-list-h2">
                   <li>
                     <a href="#get-all-documents" class="toc-h2 toc-link" data-title="Get All Documents">Get All Documents</a>
+                  </li>
+                  <li>
+                    <a href="#get-a-specific-doc" class="toc-h2 toc-link" data-title="Get a Specific Doc">Get a Specific Doc</a>
+                  </li>
+                  <li>
+                    <a href="#update-a-specific-doc-upload" class="toc-h2 toc-link" data-title="Update a Specific Doc (Upload)">Update a Specific Doc (Upload)</a>
+                  </li>
+                  <li>
+                    <a href="#create-a-new-doc" class="toc-h2 toc-link" data-title="Create a New Doc">Create a New Doc</a>
+                  </li>
+                  <li>
+                    <a href="#delete-a-specific-doc" class="toc-h2 toc-link" data-title="Delete a Specific Doc">Delete a Specific Doc</a>
                   </li>
               </ul>
           </li>
@@ -507,7 +540,7 @@ https://secure.homezada.com/api/v1/users?sort<span class="o">=</span>email
 <span class="nb">require</span> <span class="s2">"uri"</span>
 <span class="nb">require</span> <span class="s2">"json"</span>
 
-<span class="no">HOMEZADA_PARTNER_API_URL</span> <span class="o">=</span> <span class="s2">"https://secure.homezada.com/api/v1/properties/123456"</span>
+<span class="no">HOMEZADA_PARTNER_API_URL</span> <span class="o">=</span> <span class="s2">"https://secure.homezada.com/api/v1/users"</span>
 <span class="n">uri</span> <span class="o">=</span> <span class="no">URI</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="no">HOMEZADA_PARTNER_API_URL</span><span class="p">)</span>
 <span class="n">params</span> <span class="o">=</span> <span class="p">{</span> <span class="ss">sort: </span><span class="s2">"email"</span> <span class="p">}</span>
 <span class="n">uri</span><span class="p">.</span><span class="nf">query</span> <span class="o">=</span> <span class="no">URI</span><span class="p">.</span><span class="nf">encode_www_form</span><span class="p">(</span> <span class="n">params</span> <span class="p">)</span>
@@ -523,13 +556,13 @@ https://secure.homezada.com/api/v1/users?sort<span class="o">=</span>email
 curl -i 
 -H <span class="s2">"Accept: application/vnd.api+json"</span> -H <span class="s1">'Content-Type:application/vnd.api+json'</span>
 --user PARTNER_ID:PARTNER_API_SECRET 
-https://secure.homezada.com/api/v1/properties?sort<span class="o">=</span>-name,country
+https://secure.homezada.com/api/v1/users/123/properties?sort<span class="o">=</span>-name,country
 </code></pre><pre class="highlight ruby tab-ruby"><code><span class="c1"># Sort by descending property name then country</span>
 <span class="nb">require</span> <span class="s2">"net/http"</span>
 <span class="nb">require</span> <span class="s2">"uri"</span>
 <span class="nb">require</span> <span class="s2">"json"</span>
 
-<span class="no">HOMEZADA_PARTNER_API_URL</span> <span class="o">=</span> <span class="s2">"https://secure.homezada.com/api/v1/properties/123456"</span>
+<span class="no">HOMEZADA_PARTNER_API_URL</span> <span class="o">=</span> <span class="s2">"https://secure.homezada.com/api/v1/users/123/properties"</span>
 <span class="n">uri</span> <span class="o">=</span> <span class="no">URI</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="no">HOMEZADA_PARTNER_API_URL</span><span class="p">)</span>
 <span class="n">params</span> <span class="o">=</span> <span class="p">{</span> <span class="ss">sort: </span><span class="s2">"-name,country"</span> <span class="p">}</span>
 <span class="n">uri</span><span class="p">.</span><span class="nf">query</span> <span class="o">=</span> <span class="no">URI</span><span class="p">.</span><span class="nf">encode_www_form</span><span class="p">(</span> <span class="n">params</span> <span class="p">)</span>
@@ -864,7 +897,7 @@ curl -i
 </thead><tbody>
 <tr>
 <td>ID</td>
-<td>The ID of the User to retrieve</td>
+<td>The ID of the User to update</td>
 </tr>
 </tbody></table>
 <h3 id='data-fields-2'>Data Fields</h3>
@@ -883,6 +916,28 @@ curl -i
 <td>The email of the User to update. Required field.</td>
 </tr>
 </tbody></table>
+<h2 id='create-a-new-user'>Create a New User</h2>
+<p><code>POST https://secure.homezada.com/api/v1/users</code></p>
+<h3 id='data-fields-3'>Data Fields</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>name</td>
+<td>The name of the User to create. Required field.</td>
+</tr>
+<tr>
+<td>email</td>
+<td>The email of the User to create. Required field.</td>
+</tr>
+</tbody></table>
+
+<aside class="information">
+A new User account is created with a random strong password. Please use the Password Reset with the associated email address on the account.
+</aside>
 <h2 id='delete-a-specific-user'>Delete a Specific User</h2><pre class="highlight ruby tab-ruby"><code><span class="c1"># TDB please see Shell Example</span>
 </code></pre><pre class="highlight shell tab-shell"><code>curl -i 
 -H <span class="s2">"Accept: application/vnd.api+json"</span> -H <span class="s1">'Content-Type:application/vnd.api+json'</span> 
@@ -910,13 +965,94 @@ An Account destroy action will disable the account. The Partner account security
 </tbody></table>
 <h1 id='partner-data-professionals'>Partner Data - Professionals</h1>
 <p>A Professional is a business oriented HomeZada account. When created via this API it will be associated with the Partner id.</p>
-<h2 id='get-all-professionals'>Get All Professionals</h2><h2 id='get-a-specific-professional'>Get a Specific Professional</h2><h2 id='update-a-specific-professional'>Update a Specific Professional</h2><h2 id='delete-a-specific-professional'>Delete a Specific Professional</h2><h1 id='partner-data-properties'>Partner Data - Properties</h1>
+<h2 id='get-all-professionals'>Get All Professionals</h2>
+<p><code>GET https://secure.homezada.com/api/v1/professionals</code></p>
+<h2 id='get-a-specific-professional'>Get a Specific Professional</h2>
+<p><code>GET https://secure.homezada.com/api/v1/professionals/&lt;ID&gt;</code></p>
+<h2 id='update-a-specific-professional'>Update a Specific Professional</h2>
+<p><code>PUT https://secure.homezada.com/api/v1/professionals/&lt;ID&gt;</code></p>
+<h2 id='create-a-new-professional'>Create a New Professional</h2>
+<p><code>POST https://secure.homezada.com/api/v1/professionals</code></p>
+<h3 id='data-fields-4'>Data Fields</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>first-name</td>
+<td>The first name of the Professional to create. Required field.</td>
+</tr>
+<tr>
+<td>last-name</td>
+<td>The last name of the Professional to create. Required field.</td>
+</tr>
+<tr>
+<td>email</td>
+<td>The last name of the Professional to create. Required field.</td>
+</tr>
+<tr>
+<td>company-name</td>
+<td>The company name of the Professional to create. Required field.</td>
+</tr>
+</tbody></table>
+
+<aside class="information">
+A new Professional account is created with a random strong password. Please use the Password Reset with the associated email address on the account.
+</aside>
+<h2 id='delete-a-specific-professional'>Delete a Specific Professional</h2>
+<p><code>DELETE https://secure.homezada.com/api/v1/professionals/&lt;ID&gt;</code></p>
+<h1 id='partner-data-properties'>Partner Data - Properties</h1>
 <p>A Property is a physical property that belongs to either a User or a Professional. When created via this API it will be associated with the Partner id.</p>
-<h2 id='get-all-properties'>Get All Properties</h2><h2 id='get-a-specific-property'>Get a Specific Property</h2><h2 id='update-a-specific-property'>Update a Specific Property</h2><h2 id='delete-a-specific-property'>Delete a Specific Property</h2><h1 id='partner-data-photos'>Partner Data - Photos</h1>
-<p>A Property is a physical property that belongs to either a User or a Professional. When created via this API it will be associated with the Partner id.</p>
-<h2 id='get-all-photos'>Get All Photos</h2><h1 id='partner-data-documents'>Partner Data - Documents</h1>
-<p>A Property is a physical property that belongs to either a User or a Professional. When created via this API it will be associated with the Partner id.</p>
-<h2 id='get-all-documents'>Get All Documents</h2><h1 id='changelog'>Changelog</h1><h2 id='december-2019'>December 2019</h2>
+<h2 id='get-all-properties'>Get All Properties</h2>
+<p><code>GET https://secure.homezada.com/api/v1/users/&lt;ID&gt;/properties</code></p>
+<h2 id='get-a-specific-property'>Get a Specific Property</h2>
+<p><code>GET https://secure.homezada.com/api/v1/properties/&lt;ID&gt;</code></p>
+<h2 id='update-a-specific-property'>Update a Specific Property</h2>
+<p><code>PUT https://secure.homezada.com/api/v1/properties/&lt;ID&gt;</code></p>
+<h2 id='create-a-new-property'>Create a New Property</h2>
+<p><code>POST https://secure.homezada.com/api/v1/properties</code></p>
+<h2 id='delete-a-specific-property'>Delete a Specific Property</h2>
+<p><code>DELETE https://secure.homezada.com/api/v1/properties/&lt;ID&gt;</code></p>
+<h1 id='partner-data-photos'>Partner Data - Photos</h1>
+<p>A Photo is an image that belongs to a base record, such as a Property.</p>
+
+<p>For uploading binary content, the data parameter <code>base64_content</code> can be set. This JSON data attribute can be set on the corresponding existing Doc PUT action.</p>
+<h2 id='get-all-photos'>Get All Photos</h2>
+<p><code>GET https://secure.homezada.com/api/v1/properties/&lt;ID&gt;/photos</code></p>
+<h2 id='get-a-specific-photo'>Get a Specific Photo</h2>
+<p><code>GET https://secure.homezada.com/api/v1/properties/&lt;ID&gt;/photos/&lt;ID&gt;</code></p>
+<h2 id='update-a-specific-photo-upload'>Update a Specific Photo (Upload)</h2>
+<p><code>PUT https://secure.homezada.com/api/v1/properties/&lt;ID&gt;/photos</code></p>
+<h2 id='create-a-new-photo'>Create a New Photo</h2>
+<p><code>POST https://secure.homezada.com/api/v1/properties/&lt;ID&gt;/photos</code></p>
+
+<aside class="information">
+The Update / PUT action must be used to upload base64 encoded data, please create and then update in two steps.
+</aside>
+<h2 id='delete-a-specific-photo'>Delete a Specific Photo</h2>
+<p><code>DELETE https://secure.homezada.com/api/v1/properties/&lt;ID&gt;/photos/&lt;ID&gt;</code></p>
+<h1 id='partner-data-documents'>Partner Data - Documents</h1>
+<p>A Doc is an file or link that belongs to a base record, such as a Property.</p>
+
+<p>For uploading binary content, the data parameter <code>base64_content</code> can be set. This JSON data attribute can be set on the corresponding existing Doc PUT action.</p>
+<h2 id='get-all-documents'>Get All Documents</h2>
+<p><code>GET https://secure.homezada.com/api/v1/properties/&lt;ID&gt;/docs</code></p>
+<h2 id='get-a-specific-doc'>Get a Specific Doc</h2>
+<p><code>GET https://secure.homezada.com/api/v1/properties/&lt;ID&gt;/docs/&lt;ID&gt;</code></p>
+<h2 id='update-a-specific-doc-upload'>Update a Specific Doc (Upload)</h2>
+<p><code>PUT https://secure.homezada.com/api/v1/properties/&lt;ID&gt;/docs</code></p>
+<h2 id='create-a-new-doc'>Create a New Doc</h2>
+<p><code>POST https://secure.homezada.com/api/v1/properties/&lt;ID&gt;/docs</code></p>
+
+<aside class="information">
+The Update / PUT action must be used to upload base64 encoded data, please create and then update in two steps.
+</aside>
+  
+<h2 id='delete-a-specific-doc'>Delete a Specific Doc</h2>
+<p><code>DELETE https://secure.homezada.com/api/v1/properties/&lt;ID&gt;/docs/&lt;ID&gt;</code>  </p>
+<h1 id='changelog'>Changelog</h1><h2 id='december-2019'>December 2019</h2>
 <p>Initial version, and breaking changes will be listed in this section.</p>
 <h1 id='errors'>Errors</h1>
 <p>The HomeZada Partner API uses the following error codes at the HTTP request level:</p>
