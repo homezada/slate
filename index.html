@@ -1005,6 +1005,10 @@ A new Professional account is created with a random strong password. Please use 
 <p><code>DELETE https://secure.homezada.com/api/v1/professionals/&lt;ID&gt;</code></p>
 <h1 id='partner-data-properties'>Partner Data - Properties</h1>
 <p>A Property is a physical property that belongs to either a User or a Professional. When created via this API it will be associated with the Partner id.</p>
+
+<aside class="information">
+Creating a new Property causes a number of services to be called, so the creation of the complete data set of a new property is asynchronous. The initial 'stub' property is returned, requiring a requery for updated data. A future field can supply a webhook if synchronous creation is needed.
+</aside>
 <h2 id='get-all-properties'>Get All Properties</h2>
 <p><code>GET https://secure.homezada.com/api/v1/users/&lt;ID&gt;/properties</code></p>
 <h2 id='get-a-specific-property'>Get a Specific Property</h2>
