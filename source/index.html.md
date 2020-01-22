@@ -710,6 +710,9 @@ A new Professional account is created with a random strong password. Please use 
 
 A Property is a physical property that belongs to either a User or a Professional. When created via this API it will be associated with the Partner id.
 
+<aside class="information">
+Creating a new Property causes a number of services to be called, so the creation of the complete data set of a new property is asynchronous. The initial 'stub' property is returned, requiring a requery for updated data. A future field can supply a webhook if synchronous creation is needed.
+</aside>
 ## Get All Properties
 
 `GET https://secure.homezada.com/api/v1/users/<ID>/properties`
