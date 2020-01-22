@@ -209,7 +209,7 @@ require "net/http"
 require "uri"
 require "json"
 
-HOMEZADA_PARTNER_API_URL = "https://secure.homezada.com/api/v1/properties/123456"
+HOMEZADA_PARTNER_API_URL = "https://secure.homezada.com/api/v1/users"
 uri = URI.parse(HOMEZADA_PARTNER_API_URL)
 params = { sort: "email" }
 uri.query = URI.encode_www_form( params )
@@ -228,7 +228,7 @@ result = JSON.parse(response.body) if response.code == '200'
 curl -i 
 -H "Accept: application/vnd.api+json" -H 'Content-Type:application/vnd.api+json'
 --user PARTNER_ID:PARTNER_API_SECRET 
-https://secure.homezada.com/api/v1/properties?sort=-name,country
+https://secure.homezada.com/api/v1/users/123/properties?sort=-name,country
 ```
 
 ```ruby
@@ -237,7 +237,7 @@ require "net/http"
 require "uri"
 require "json"
 
-HOMEZADA_PARTNER_API_URL = "https://secure.homezada.com/api/v1/properties/123456"
+HOMEZADA_PARTNER_API_URL = "https://secure.homezada.com/api/v1/users/123/properties"
 uri = URI.parse(HOMEZADA_PARTNER_API_URL)
 params = { sort: "-name,country" }
 uri.query = URI.encode_www_form( params )
@@ -614,7 +614,7 @@ This endpoint updates a specific User by unique ID.
 
 Parameter | Description
 --------- | -----------
-ID | The ID of the User to retrieve
+ID | The ID of the User to update
 
 ### Data Fields
 
@@ -622,6 +622,22 @@ Parameter | Description
 --------- | -----------
 name | The name of the User to update. Required field.
 email | The email of the User to update. Required field.
+
+
+## Create a New User
+
+`POST https://secure.homezada.com/api/v1/users`
+
+### Data Fields
+
+Parameter | Description
+--------- | -----------
+name | The name of the User to create. Required field.
+email | The email of the User to create. Required field.
+
+<aside class="information">
+A new User account is created with a random strong password. Please use the Password Reset with the associated email address on the account.
+</aside>
 
 ## Delete a Specific User
 
@@ -658,12 +674,37 @@ A Professional is a business oriented HomeZada account. When created via this AP
 
 ## Get All Professionals
 
+`GET https://secure.homezada.com/api/v1/professionals`
+
 ## Get a Specific Professional
+
+`GET https://secure.homezada.com/api/v1/professionals/<ID>`
 
 ## Update a Specific Professional
 
+`PUT https://secure.homezada.com/api/v1/professionals/<ID>`
+
+## Create a New Professional
+
+`POST https://secure.homezada.com/api/v1/professionals`
+
+### Data Fields
+
+Parameter | Description
+--------- | -----------
+first-name | The first name of the Professional to create. Required field.
+last-name | The last name of the Professional to create. Required field.
+email | The last name of the Professional to create. Required field.
+company-name | The company name of the Professional to create. Required field.
+
+
+<aside class="information">
+A new Professional account is created with a random strong password. Please use the Password Reset with the associated email address on the account.
+</aside>
+
 ## Delete a Specific Professional
 
+`DELETE https://secure.homezada.com/api/v1/professionals/<ID>`
 
 # Partner Data - Properties
 
@@ -671,23 +712,85 @@ A Property is a physical property that belongs to either a User or a Professiona
 
 ## Get All Properties
 
+`GET https://secure.homezada.com/api/v1/users/<ID>/properties`
+
 ## Get a Specific Property
+
+`GET https://secure.homezada.com/api/v1/properties/<ID>`
 
 ## Update a Specific Property
 
+`PUT https://secure.homezada.com/api/v1/properties/<ID>`
+  
+## Create a New Property
+  
+`POST https://secure.homezada.com/api/v1/properties`
+  
 ## Delete a Specific Property
+
+`DELETE https://secure.homezada.com/api/v1/properties/<ID>`
 
 # Partner Data - Photos
 
-A Property is a physical property that belongs to either a User or a Professional. When created via this API it will be associated with the Partner id.
+A Photo is an image that belongs to a base record, such as a Property.
+
+For uploading binary content, the data parameter <code>base64_content</code> can be set. This JSON data attribute can be set on the corresponding existing Doc PUT action.
 
 ## Get All Photos
 
+`GET https://secure.homezada.com/api/v1/properties/<ID>/photos`
+  
+## Get a Specific Photo
+
+`GET https://secure.homezada.com/api/v1/properties/<ID>/photos/<ID>`
+
+## Update a Specific Photo (Upload)
+  
+`PUT https://secure.homezada.com/api/v1/properties/<ID>/photos`
+
+## Create a New Photo
+  
+`POST https://secure.homezada.com/api/v1/properties/<ID>/photos`
+  
+<aside class="information">
+The Update / PUT action must be used to upload base64 encoded data, please create and then update in two steps.
+</aside>
+
+  
+## Delete a Specific Photo
+
+`DELETE https://secure.homezada.com/api/v1/properties/<ID>/photos/<ID>`
+
 # Partner Data - Documents
 
-A Property is a physical property that belongs to either a User or a Professional. When created via this API it will be associated with the Partner id.
+A Doc is an file or link that belongs to a base record, such as a Property.
+
+For uploading binary content, the data parameter <code>base64_content</code> can be set. This JSON data attribute can be set on the corresponding existing Doc PUT action.
 
 ## Get All Documents
+
+`GET https://secure.homezada.com/api/v1/properties/<ID>/docs`
+
+## Get a Specific Doc
+
+`GET https://secure.homezada.com/api/v1/properties/<ID>/docs/<ID>`
+    
+## Update a Specific Doc (Upload)
+
+`PUT https://secure.homezada.com/api/v1/properties/<ID>/docs`
+
+## Create a New Doc
+
+`POST https://secure.homezada.com/api/v1/properties/<ID>/docs`
+  
+<aside class="information">
+The Update / PUT action must be used to upload base64 encoded data, please create and then update in two steps.
+</aside>
+  
+## Delete a Specific Doc
+
+`DELETE https://secure.homezada.com/api/v1/properties/<ID>/docs/<ID>`  
+
 
 
 
